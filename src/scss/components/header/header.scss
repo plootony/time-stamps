@@ -1,0 +1,18 @@
+.header {
+  height: 98px;
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+  align-items: center;
+  border-bottom: 1px solid $color-decor-grey;
+
+  &__welcome {
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  &__controls {
+    display: flex;
+    gap: 24px;
+  }
+}

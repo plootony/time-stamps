@@ -1,0 +1,34 @@
+.card {
+  padding: $spacing-md;
+  display: flex;
+  align-items: center;
+  background-color: $color-white;
+  box-shadow: $box-shadow;
+  border-radius: 16px;
+  cursor: pointer;
+
+  &__image {
+    width: 200px;
+    height: 170px;
+    border-radius: 16px;
+  }
+
+  &__body {
+    margin-left: $spacing-lg;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__title {
+    font-size: 32px;
+    font-weight: 700;
+  }
+
+  &__subtitle {
+    margin-top: $spacing-md;
+    width: 85%;
+    font-size: 18px;
+    color: $color-grey;
+    line-height: 1.4;
+  }
+}

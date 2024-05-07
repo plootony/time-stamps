@@ -1,0 +1,52 @@
+.dropdown {
+  position: relative;
+
+  &__btn {
+    padding: $spacing-sm;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $color-white;
+    box-shadow: $box-shadow;
+    border-radius: 4px;
+    cursor: pointer;
+
+    .icon {
+      stroke: $color-grey;
+      transition: stroke .3s;
+    }
+
+    &:hover {
+
+      .icon {
+        stroke: $color-pastel-purple;
+      }
+    }
+  }
+
+  &__content {
+    min-width: 220px;
+    margin-top: $spacing-md;
+    position: absolute;
+    right: 0;
+    background: $color-white;
+    box-shadow: $box-shadow;
+    border-radius: 4px;
+  }
+
+  &__item {
+    padding: 16px;
+    font-size: 16px;
+    color: $color-grey;
+    cursor: pointer;
+    transition: color .3s;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $color-decor-grey;
+    }
+
+    &:hover {
+      color: $color-pastel-purple;
+    }
+  }
+}

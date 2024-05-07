@@ -1,0 +1,29 @@
+.btn {
+  padding: $spacing-md $spacing-lg;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: .4s background-color;
+  font-size: 16px;
+
+  &--primary {
+    background: $color-pastel-purple;
+    color: $color-white;
+
+    &:hover {
+      background-color: lighten($color-pastel-purple, 5);
+    }
+  }
+
+  &--outline{
+    outline: 1px solid $color-pastel-purple;
+    color: $color-pastel-purple;
+
+    &:hover {
+      background-color: lighten($color-pastel-purple, 5);
+      color: $color-white;
+    }
+  }
+}

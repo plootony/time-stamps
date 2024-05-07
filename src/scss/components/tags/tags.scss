@@ -1,0 +1,11 @@
+.tags {
+  margin-top: $spacing-md;
+  display: flex;
+  gap: $spacing-lg;
+}
+
+.tag {
+  padding: $spacing-sm;
+  background-color: $color-decor-grey;
+  border-radius: 4px;
+}

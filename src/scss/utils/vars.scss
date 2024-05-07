@@ -1,0 +1,31 @@
+//Colors
+$color-black: #050C16;
+$color-white: #ffffff;
+$color-bg-grey: #FAFAFA;
+$color-grey: #A4AFB5;
+$color-decor-grey: #EFF3F8;
+$color-accent-grey: #e5e5e5;
+$color-pastel-purple: #795dbb;
+$color-pastel-green: #D5EBE3;
+$color-pastel-orange: #F8C993;
+$color-pastel-red: #cd5353;
+
+// Breakpoints
+$breakpoints: (
+        sm: 576px,
+        md: 768px,
+        lg: 992px,
+        xl: 1200px,
+        xxl: 1440px
+);
+
+// Grid columns
+$columns: 12;
+
+// Spacing
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 32px;
+
+// Shadows
+$box-shadow: 0px 0px 16px 0px rgba(34, 60, 80, 0.05);

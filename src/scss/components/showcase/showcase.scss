@@ -1,0 +1,30 @@
+.showcase {
+  width: 100%;
+
+  &__menu {
+    display: flex;
+    gap: $spacing-lg;
+  }
+
+  &__menu-item {
+    font-size: 22px;
+    color: $color-grey;
+
+    &:hover,
+    &.is-active {
+      cursor: pointer;
+      color: $color-pastel-purple;
+    }
+  }
+
+  &__cards {
+    margin-top: $spacing-lg;
+    margin-left: -$spacing-md;
+    padding: $spacing-sm;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    overflow-y: auto;
+    max-height: 720px;
+  }
+}

@@ -1,0 +1,34 @@
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+
+  &__label {
+    font-size: 16px;
+  }
+
+  &__input {
+    padding: $spacing-md;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    background-color: $color-bg-grey;
+    border: 1px solid $color-accent-grey;
+    font-size: 16px;
+
+    &::placeholder {
+      font-size: 16px;
+    }
+  }
+
+  &__error {
+    font-size: 14px;
+    color: $color-pastel-red;
+  }
+
+  &.is-error {
+    .form-group__input {
+      border: 1px solid $color-pastel-red;
+    }
+  }
+}

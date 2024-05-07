@@ -1,0 +1,42 @@
+@import "vars";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: $color-decor-grey;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $color-grey;
+}
+
+h1, h2, h3, h4, h5 {
+  line-height: 1;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  background: none;
+  box-shadow: none;
+  outline: none;
+  border: none;
+}
+

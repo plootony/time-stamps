@@ -1,0 +1,19 @@
+.see-all {
+  display: flex;
+  align-items: center;
+  color: $color-grey;
+  font-size: 14px;
+
+  .icon {
+    margin-left: $spacing-sm;
+    stroke: $color-grey;
+  }
+
+  &:hover {
+    color: $color-pastel-purple;
+
+    .icon {
+      stroke: $color-pastel-purple;
+    }
+  }
+}
