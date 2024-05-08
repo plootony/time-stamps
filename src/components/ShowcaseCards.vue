@@ -1,6 +1,10 @@
 <template>
   <div class="showcase__cards">
-    <showcase-card v-for="card in cards" :key="card.title" :card="card"/>
+    <showcase-card
+        v-for="card in cards"
+        :key="card.id"
+        :card="card"
+    />
   </div>
 </template>
 <script setup lang="ts">
@@ -79,5 +83,4 @@ const cards: ICard[] = [
     tags: ["психология", "саморазвитие", "достижение целей", "счастье", "успех"],
   },
 ];
-
 </script>
