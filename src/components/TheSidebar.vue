@@ -54,6 +54,26 @@
         <svg class="icon icon--folder icon--lg">
           <use xlink:href="@/assets/icons/sprite.svg#folder"></use>
         </svg>
-      </a></nav>
+      </a>
+
+      <button @click.prevent="logout" class="nav__item nav__logout">
+        <svg class="icon icon--folder icon--lg">
+          <use xlink:href="@/assets/icons/sprite.svg#arrow-long-left"></use>
+        </svg>
+      </button>
+
+
+    </nav>
   </aside>
 </template>
+<script setup lang="ts">
+import {getAuth, signOut} from "firebase/auth";
+import {useRouter} from "vue-router";
+
+const router = useRouter()
+
+const logout = async (): Promise<void> => {
+  await signOut(getAuth())
+  router.push('/auth')
+}
+</script>
