@@ -31,4 +31,10 @@
     color: #795dbb;
     cursor: pointer;
   }
+
+  &__error {
+    padding: $spacing-sm;
+    background-color: lighten($color-pastel-red, 35);
+    color: $color-pastel-red;
+  }
 }

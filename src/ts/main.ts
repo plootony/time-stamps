@@ -20,6 +20,7 @@ const firebaseConfig = {
     messagingSenderId: "249280867482",
     appId: "1:249280867482:web:3ab211074c5b57171c8323"
 };
+
 initializeApp(firebaseConfig);
 
 app.mount('#app')

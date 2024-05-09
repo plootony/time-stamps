@@ -26,4 +26,29 @@
       color: $color-white;
     }
   }
+
+  &.is-loading {
+    pointer-events: none;
+    user-select: none;
+    font-size: 0;
+    opacity: .7;
+
+    &::after {
+      content: 'Загрузка...';
+      font-size: 16px;
+      animation: blink 1.4s linear infinite alternate;
+    }
+
+    @keyframes blink {
+      0% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.3;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+  }
 }

@@ -31,4 +31,12 @@
       border: 1px solid $color-pastel-red;
     }
   }
+
+  &.is-loading {
+    .form-group__input {
+      pointer-events: none;
+      user-select: none;
+      opacity: .7;
+    }
+  }
 }
