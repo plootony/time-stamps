@@ -74,6 +74,10 @@ const password = ref<string>('')
 const passwordConfirm = ref<string>('')
 
 const toggleAuth = (): void => {
+  email.value = ''
+  password.value = ''
+  passwordConfirm.value = ''
+  isError.value = ''
   isAuth.value = !isAuth.value
 }
 

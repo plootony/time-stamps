@@ -1,86 +1,20 @@
 <template>
+  <showcase-dialog/>
+
   <div class="showcase__cards">
     <showcase-card
-        v-for="card in cards"
-        :key="card.id"
-        :card="card"
+        v-for="course in courses"
+        :key="course.id"
+        :course="course"
     />
   </div>
 </template>
-<script setup lang="ts">
-import ShowcaseCard from "@/components/ShowcaseCard.vue";
-import type {ICard} from "@/interfaces/ICard";
 
-const cards: ICard[] = [
-  {
-    id: 1,
-    title: "Создание веб-сайтов с нуля",
-    desc: "Научитесь создавать красивые и функциональные веб-сайты с нуля, используя простые инструменты drag-and-drop.",
-    image: "card-image-1",
-    tags: ["веб-разработка", "дизайн", "UX/UI", "HTML", "CSS"],
-  },
-  {
-    id: 2,
-    title: "Дизайн UX/UI для начинающих",
-    desc: "Освоите основы UX/UI дизайна и научитесь создавать интерфейсы, которые нравятся людям.",
-    image: "card-image-1",
-    tags: ["UX", "UI", "дизайн", "прототипирование", "Figma", "Adobe XD"],
-  },
-  {
-    id: 3,
-    title: "Разработка мобильных приложений",
-    desc: "Научитесь программировать на Flutter и создавайте красивые и функциональные мобильные приложения для iOS и Android.",
-    image: "card-image-1",
-    tags: ["Flutter", "Dart", "разработка мобильных приложений", "iOS", "Android"],
-  },
-  {
-    id: 4,
-    title: "Маркетинг в социальных сетях",
-    desc: "Привлеките больше клиентов и развивайте свой бизнес с помощью социальных сетей.",
-    image: "card-image-1",
-    tags: ["маркетинг", "SMM", "Instagram", "Facebook", "Twitter"],
-  },
-  {
-    id: 5,
-    title: "SEO и продвижение сайтов",
-    desc: "Выведите свой сайт в топ поисковой выдачи Google.",
-    image: "card-image-1",
-    tags: ["SEO", "продвижение сайтов", "Google", "поисковая оптимизация", "анализ ключевых слов"],
-  },
-  {
-    id: 6,
-    title: "Фотография для начинающих",
-    desc: "Делайте профессиональные фотографии с помощью вашего смартфона.",
-    image: "card-image-1",
-    tags: ["фотография", "мобильная фотография", "обработка фото", "композиция", "свет"],
-  },
-  {
-    id: 7,
-    title: "Видеомонтаж и создание контента",
-    desc: "Создавай видеоролики, которые захватывают внимание.",
-    image: "card-image-1",
-    tags: ["видеомонтаж", "After Effects", "Premiere Pro", "YouTube", "контент-маркетинг"],
-  },
-  {
-    id: 8,
-    title: "Финансовая грамотность",
-    desc: "Возьмите под контроль свои финансы и научитесь инвестировать.",
-    image: "card-image-1",
-    tags: ["финансы", "инвестиции", "личные финансы", "бюджет", "планирование"],
-  },
-  {
-    id: 9,
-    title: "Здоровый образ жизни",
-    desc: "Приведи себя в форму и улучши свое самочувствие.",
-    image: "card-image-1",
-    tags: ["ЗОЖ", "фитнес", "питание", "здоровье", "осознанность", "йога"],
-  },
-  {
-    id: 10,
-    title: "Психология и личностный рост",
-    desc: "Раскрой свой потенциал и стань лучшей версией себя.",
-    image: "card-image-1",
-    tags: ["психология", "саморазвитие", "достижение целей", "счастье", "успех"],
-  },
-];
+<script setup lang="ts">
+import {ref} from "vue";
+import ShowcaseCard from "@/components/ShowcaseCard.vue";
+import type {ICourse} from "@/interfaces/ICourse";
+import ShowcaseDialog from "@/components/ShowcaseDialog.vue";
+
+const courses = ref<ICourse[]>([]);
 </script>
