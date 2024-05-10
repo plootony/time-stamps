@@ -6,6 +6,7 @@
         v-for="course in courses"
         :key="course.id"
         :course="course"
+        @delete-course="deleteCourse"
     />
   </div>
 </template>
@@ -37,6 +38,11 @@ const getAllCourses = async () => {
   } finally {
     console.log('Загрузка завершена')
   }
+}
+
+const deleteCourse = async (id: string) => {
+  await deleteDoc(doc(db, `users/${getAuth().currentUser?.uid}/courses/`, id))
+  getAllCourses()
 }
 
 onMounted(() => {

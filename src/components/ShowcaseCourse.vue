@@ -21,11 +21,18 @@
         </span>
       </div>
     </div>
+    <button class="btn btn--primary" @click="deleteCourse" style="margin-left: auto">Удалить</button>
   </div>
 </template>
 
 <script setup lang="ts">
 import type {ICourse} from "@/interfaces/ICourse";
 
-defineProps<{ course: ICourse }>()
+const props = defineProps<{ course: ICourse }>()
+
+const emit = defineEmits(['deleteCourse'])
+
+const deleteCourse = () => {
+  emit('deleteCourse', props.course.id)
+}
 </script>
