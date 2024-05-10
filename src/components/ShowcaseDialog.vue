@@ -1,7 +1,14 @@
 <template>
-  <button class="btn btn--primary" @click="modalShow = true">Добавить новый курс</button>
+  <button
+      class="btn btn--primary"
+      @click="modalShow = true"
+  >Добавить новый курс
+  </button>
 
-  <the-modal :modalShow="modalShow" @modalClose="modalClose">
+  <the-modal
+      :modalShow="modalShow"
+      @modalClose="modalClose"
+  >
     <template #header>
       <h2 class="modal__title">Добавить новый курс</h2>
     </template>
@@ -37,11 +44,11 @@
 
     <template #footer>
       <button class="btn btn--outline" @click.prevent="modalClose">Закрыть</button>
-
       <button @click.prevent="addNewCourse" class="btn btn--primary">Сохранить</button>
     </template>
   </the-modal>
 </template>
+
 <script setup lang="ts">
 import {ref} from "vue";
 import {v4 as uuidv4} from 'uuid';
@@ -57,6 +64,11 @@ const image = ref<string>('');
 const link = ref<string>('');
 const tags = ref<string>('');
 
+const emit = defineEmits(['updateCourses'])
+const updateCourses = (): void => {
+  emit('updateCourses')
+  console.log('Обновляем после добавления курса')
+}
 
 const getImage = (event: any) => {
   const file = event.target.files[0];
@@ -75,15 +87,16 @@ const addNewCourse = async (): Promise<void> => {
     tags: tags.value.split(',').map(tag => tag.trim())
   }
 
-  console.log(newCourse)
-
   const userId = getAuth().currentUser?.uid
   if (userId) {
     await setDoc(doc(db, `users/${userId}/courses/${newCourse.id}`), newCourse)
+    updateCourses()
+    modalClose()
   }
 }
 
 const modalShow = ref<boolean>(false)
+
 const modalClose = (): void => {
   modalShow.value = false
 }
