@@ -4,5 +4,7 @@ export interface ICourse {
     title: string,
     link: string,
     desc: string,
-    tags: string[]
+    tags: string[],
+    createdAt: Date,
+    isCompleted: boolean
 }

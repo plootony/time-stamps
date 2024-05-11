@@ -1,7 +1,9 @@
 <template>
   <showcase-dialog @update-courses="getAllCourses"/>
 
-  <div class="showcase__cards">
+  <div v-if="isLoading"> Загрузка...</div>
+
+  <div v-else class="showcase__cards">
     <showcase-course
         v-for="course in courses"
         :key="course.id"
@@ -21,10 +23,12 @@ import {getAuth} from "firebase/auth";
 
 const db = getFirestore()
 const courses = ref<ICourse[]>([])
+const isLoading = ref(false)
 
 const getAllCourses = async () => {
   try {
-    const getData = query(collection(db, `users/${getAuth().currentUser?.uid}/courses/`))
+    isLoading.value = true
+    const getData = query(collection(db, `users/${getAuth().currentUser?.uid}/courses/`), orderBy('createdAt', 'desc'))
     const coursesList = await getDocs(getData)
 
     courses.value = []
@@ -36,7 +40,7 @@ const getAllCourses = async () => {
   } catch (error) {
     console.log(error)
   } finally {
-    console.log('Загрузка завершена')
+    isLoading.value = false
   }
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" @click.stop="router.push(`/course/${course.id}`)">
     <img
         class="card__image"
         :src="`src/assets/images/${course.image}`"
@@ -21,15 +21,17 @@
         </span>
       </div>
     </div>
-    <button class="btn btn--primary" @click="deleteCourse" style="margin-left: auto">Удалить</button>
+    <button class="btn btn--primary" @click.stop="deleteCourse" style="margin-left: auto">Удалить</button>
   </div>
 </template>
 
 <script setup lang="ts">
+import {useRouter} from "vue-router";
 import type {ICourse} from "@/interfaces/ICourse";
 
 const props = defineProps<{ course: ICourse }>()
 
+const router = useRouter()
 const emit = defineEmits(['deleteCourse'])
 
 const deleteCourse = () => {

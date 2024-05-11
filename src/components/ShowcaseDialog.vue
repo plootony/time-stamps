@@ -84,7 +84,9 @@ const addNewCourse = async (): Promise<void> => {
     desc: desc.value,
     image: image.value,
     link: link.value,
-    tags: tags.value.split(',').map(tag => tag.trim())
+    tags: tags.value.split(',').map(tag => tag.trim()),
+    createdAt: new Date(),
+    isCompleted: false
   }
 
   const userId = getAuth().currentUser?.uid
@@ -99,5 +101,10 @@ const modalShow = ref<boolean>(false)
 
 const modalClose = (): void => {
   modalShow.value = false
+  title.value = ''
+  desc.value = ''
+  image.value = ''
+  link.value = ''
+  tags.value = ''
 }
 </script>

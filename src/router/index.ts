@@ -32,7 +32,7 @@ const routes: RouteRecordRaw[] = [
         path: '/course/:id',
         name: 'course',
         component: () => import('@/pages/PageCourse.vue'),
-        beforeEnter: isAuth
+        beforeEnter: isAuth,
     }
 ]
 
