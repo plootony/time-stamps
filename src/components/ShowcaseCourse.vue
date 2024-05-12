@@ -1,5 +1,8 @@
 <template>
-  <div class="card" @click.stop="router.push(`/course/${course.id}`)">
+  <div
+      class="card"
+      @click.stop="router.push(`/course/${course.id}`)"
+  >
     <img
         class="card__image"
         :src="`src/assets/images/${course.image}`"
@@ -21,7 +24,13 @@
         </span>
       </div>
     </div>
-    <button class="btn btn--primary" @click.stop="deleteCourse" style="margin-left: auto">Удалить</button>
+
+    <button
+        class="btn btn--primary"
+        @click.stop="deleteCourse"
+        style="margin-left: auto"
+    >Удалить
+    </button>
   </div>
 </template>
 
@@ -29,12 +38,11 @@
 import {useRouter} from "vue-router";
 import type {ICourse} from "@/interfaces/ICourse";
 
-const props = defineProps<{ course: ICourse }>()
-
 const router = useRouter()
+const props = defineProps<{ course: ICourse }>()
 const emit = defineEmits(['deleteCourse'])
 
-const deleteCourse = () => {
+const deleteCourse = (): void => {
   emit('deleteCourse', props.course.id)
 }
 </script>

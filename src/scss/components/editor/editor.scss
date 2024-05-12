@@ -1,0 +1,18 @@
+.editor {
+  padding: $spacing-lg;
+  margin-top: $spacing-md;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  background-color: $color-white;
+  border-radius: 8px;
+  box-shadow: $box-shadow;
+
+  .codex-editor__redactor {
+    padding-bottom: 0 !important;
+  }
+
+  &__input {
+    height: 100%;
+  }
+}

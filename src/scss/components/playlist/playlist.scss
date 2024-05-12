@@ -1,0 +1,49 @@
+.playlist {
+  margin-top: $spacing-lg;
+  height: 100%;
+  width: 100%;
+  padding: $spacing-lg;
+  background-color: $color-white;
+  box-shadow: $box-shadow;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+
+  &__title {
+    font-size: 32px;
+    line-height: 1;
+    font-weight: 700;
+  }
+
+  &__items {
+    margin-top: $spacing-sm;
+  }
+
+  &__item {
+    padding: $spacing-md;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $color-decor-grey;
+    }
+
+    &:hover {
+      background-color: $color-decor-grey;
+      color: $color-pastel-purple;
+
+      .playlist__item-time {
+        color: $color-pastel-purple;
+      }
+    }
+  }
+
+  &__item-time {
+    color: $color-black;
+  }
+
+  &__form {
+    
+  }
+}

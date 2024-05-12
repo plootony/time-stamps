@@ -1,3 +1,5 @@
+import type {IChapter} from './IChapter';
+
 export interface ICourse {
     id: string,
     image: string,
@@ -6,5 +8,6 @@ export interface ICourse {
     desc: string,
     tags: string[],
     createdAt: Date,
-    isCompleted: boolean
+    isCompleted: boolean,
+    chapters?: IChapter[];
 }

@@ -5,7 +5,7 @@
 
   <div v-else class="showcase__cards">
     <showcase-course
-        v-for="course in courses"
+        v-for="course in coursesList"
         :key="course.id"
         :course="course"
         @delete-course="deleteCourse"
@@ -22,19 +22,26 @@ import ShowcaseCourse from "@/components/ShowcaseCourse.vue"
 import {getAuth} from "firebase/auth";
 
 const db = getFirestore()
-const courses = ref<ICourse[]>([])
+const userId = getAuth().currentUser?.uid
+const coursesList = ref<ICourse[]>([]);
 const isLoading = ref(false)
 
 const getAllCourses = async () => {
   try {
     isLoading.value = true
-    const getData = query(collection(db, `users/${getAuth().currentUser?.uid}/courses/`), orderBy('createdAt', 'desc'))
-    const coursesList = await getDocs(getData)
 
-    courses.value = []
+    if (!userId) {
+      console.log('Пользователь не найден')
+      return
+    }
 
-    coursesList.docs.map(doc => {
-      courses.value.push(doc.data() as ICourse)
+    const docRef = query(collection(db, `users/${userId}/courses/`), orderBy('createdAt', 'desc'))
+    const docSnap = await getDocs(docRef)
+
+    coursesList.value = []
+
+    docSnap.docs.map(doc => {
+      coursesList.value.push(doc.data() as ICourse)
     })
 
   } catch (error) {
@@ -45,8 +52,8 @@ const getAllCourses = async () => {
 }
 
 const deleteCourse = async (id: string) => {
-  await deleteDoc(doc(db, `users/${getAuth().currentUser?.uid}/courses/`, id))
-  getAllCourses()
+  await deleteDoc(doc(db, `users/${userId}/courses/`, id))
+  coursesList.value = coursesList.value.filter(course => course.id !== id)
 }
 
 onMounted(() => {

@@ -1,41 +1,93 @@
 <template>
-  <div v-if="course">
-    <small>{{ course.id }}</small>
-    <h1>{{ course.title }}</h1>
-    <span>{{ course.desc }}</span>
-  </div>
+  <main-layout>
+    <template #content>
+      <div v-if="courseInfo">
+        {{ courseInfo }}
+        <br><br><br>
 
-  <div v-else>Загрузка...</div>
+        <chapter-dialog/>
+      </div>
+
+      <div v-if="chaptersList">
+        {{ chaptersList }}
+      </div>
+
+    </template>
+  </main-layout>
 </template>
 
 <script setup lang="ts">
 import {getAuth} from "firebase/auth";
-import {collection, doc, getFirestore, getDoc} from "firebase/firestore"
+import {collection, doc, getDoc, getDocs, getFirestore, query} from "firebase/firestore"
+import MainLayout from "@/layouts/MainLayout.vue"
+import {useRoute} from "vue-router"
 import {onMounted, ref} from "vue"
-import {useRoute} from "vue-router";
+import type {ICourse} from "@/interfaces/ICourse";
+import type {IChapter} from "@/interfaces/IChapter";
+import ChapterDialog from "@/components/ChapterDialog.vue";
 
-defineProps(['id'])
-
-const router = useRoute()
 const db = getFirestore()
+const router = useRoute()
+const isLoading = ref<boolean>(false)
 
-const course = ref()
-const courseID = router.params.id;
+const userId = getAuth().currentUser?.uid
+const courseId = router.params.id as string
+const courseInfo = ref<ICourse | null>(null)
+const chaptersList = ref<IChapter[]>([])
 
-const getOneCourse = async () => {
-  if (typeof courseID !== 'string') {
-    console.log('Вместо id пришло, что то не то')
-    return
+const getOneCourse = async (): Promise<void> => {
+
+  try {
+    isLoading.value = true
+
+    if (!userId) {
+      console.log('Пользователь не найден')
+      return
+    }
+
+    const docRef = doc(db, `users/${userId}/courses/${courseId}`)
+    const docSnap = await getDoc(docRef)
+
+    if (docSnap.exists()) {
+      courseInfo.value = docSnap.data() as ICourse
+    } else {
+      console.log("Документ не найден")
+    }
+
+  } catch (error) {
+    console.log(error)
+  } finally {
+    isLoading.value = false
   }
+}
 
-  const courseCollection = doc(collection(db, `users/${getAuth().currentUser?.uid}/courses`), courseID)
-  const rawCourse = await getDoc(courseCollection)
+const getAllChapters = async () => {
+  try {
+    isLoading.value = true
 
-  course.value = rawCourse.data()
+    if (!userId) {
+      console.log('Пользователь не найден')
+      return
+    }
+
+    const docRef = query(collection(db, `users/${userId}/courses/${courseId}/chapters/`))
+    const docSnap = await getDocs(docRef)
+
+    if (docSnap) {
+      docSnap.docs.map(doc => {
+        chaptersList.value.push(doc.data() as IChapter)
+      })
+    }
+
+  } catch (error) {
+    console.log(error)
+  } finally {
+    isLoading.value = false
+  }
 }
 
 onMounted(() => {
   getOneCourse()
-});
-
+  getAllChapters()
+})
 </script>
