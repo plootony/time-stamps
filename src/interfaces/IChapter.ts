@@ -3,4 +3,5 @@ export interface IChapter {
     title: string;
     desc: string;
     time: number;
+    text?: string;
 }

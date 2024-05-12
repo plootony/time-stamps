@@ -1,0 +1,17 @@
+.course {
+  height: 100%;
+  overflow-y: auto;
+  max-height: 920px;
+
+  &__heading {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    height: 100px;
+  }
+
+  &__body {
+    display: flex;
+    gap: $spacing-lg;
+  }
+}

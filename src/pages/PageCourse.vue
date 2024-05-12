@@ -1,17 +1,23 @@
 <template>
   <main-layout>
     <template #content>
-      <div v-if="courseInfo">
-        {{ courseInfo }}
-        <br><br><br>
+      <div class="course">
+        <div class="course__heading">
+          <button @click="$router.go(-1)" class="btn btn--primary">
+            Назад
+          </button>
+          <h1 class="course__title">{{ courseInfo?.title }}</h1>
+        </div>
 
-        <chapter-dialog/>
+        <div class="course__body">
+          <Player :time="currentPlayerTime" :title="currentPlayerTitle"/>
+
+          <playlist
+              :chapters-list="chaptersList"
+              @setChapterTime="updatePlayerTime"
+          />
+        </div>
       </div>
-
-      <div v-if="chaptersList">
-        {{ chaptersList }}
-      </div>
-
     </template>
   </main-layout>
 </template>
@@ -25,6 +31,8 @@ import {onMounted, ref} from "vue"
 import type {ICourse} from "@/interfaces/ICourse";
 import type {IChapter} from "@/interfaces/IChapter";
 import ChapterDialog from "@/components/ChapterDialog.vue";
+import Player from "@/components/Player.vue";
+import Playlist from "@/components/Playlist.vue";
 
 const db = getFirestore()
 const router = useRoute()
@@ -34,6 +42,10 @@ const userId = getAuth().currentUser?.uid
 const courseId = router.params.id as string
 const courseInfo = ref<ICourse | null>(null)
 const chaptersList = ref<IChapter[]>([])
+
+
+const currentPlayerTime = ref<number>(0)
+const currentPlayerTitle = ref<string>('')
 
 const getOneCourse = async (): Promise<void> => {
 
@@ -84,6 +96,11 @@ const getAllChapters = async () => {
   } finally {
     isLoading.value = false
   }
+}
+
+const updatePlayerTime = (time: number, title: string): void => {
+  currentPlayerTime.value = time
+  currentPlayerTitle.value = title
 }
 
 onMounted(() => {
