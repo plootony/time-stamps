@@ -30,7 +30,8 @@
       border-bottom: 1px solid $color-decor-grey;
     }
 
-    &:hover {
+    &:hover,
+    &.is-active {
       background-color: $color-decor-grey;
       color: $color-pastel-purple;
 

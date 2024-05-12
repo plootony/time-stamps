@@ -2,8 +2,6 @@
   <div class="player">
     <div class="player__frame"> {{ time }}</div>
     <h3 class="player__title"> {{ title }} </h3>
-
-    <div class="editor"></div>
   </div>
 
 

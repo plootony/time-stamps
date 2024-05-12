@@ -2,6 +2,7 @@
   <button
       class="btn btn--primary"
       @click="modalShow = true"
+      style="margin-right: 16px;"
   >Добавить новую главу
   </button>
   <the-modal

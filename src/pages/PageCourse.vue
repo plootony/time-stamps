@@ -3,20 +3,36 @@
     <template #content>
       <div class="course">
         <div class="course__heading">
-          <button @click="$router.go(-1)" class="btn btn--primary">
-            Назад
-          </button>
-          <h1 class="course__title">{{ courseInfo?.title }}</h1>
+          <div class="course__title-wrapper">
+            <button
+                @click="$router.go(-1)"
+                class="btn btn--primary"
+            >Назад
+            </button>
+
+            <h1 class="course__title">{{ courseInfo?.title }}</h1>
+          </div>
+
+          <chapter-dialog @update-chapters="getAllChapters"/>
         </div>
 
         <div class="course__body">
-          <Player :time="currentPlayerTime" :title="currentPlayerTitle"/>
+          <Player
+              :time="currentPlayerTime"
+              :title="currentPlayerTitle"
+          />
 
           <playlist
               :chapters-list="chaptersList"
-              @setChapterTime="updatePlayerTime"
+              @updateAll="updateAll"
           />
         </div>
+
+        <editor
+            v-if="editorShow"
+            :chapter-id="currentChapterId"
+            :chapter-text="currentChapterText"
+        />
       </div>
     </template>
   </main-layout>
@@ -25,27 +41,31 @@
 <script setup lang="ts">
 import {getAuth} from "firebase/auth";
 import {collection, doc, getDoc, getDocs, getFirestore, query} from "firebase/firestore"
-import MainLayout from "@/layouts/MainLayout.vue"
 import {useRoute} from "vue-router"
 import {onMounted, ref} from "vue"
 import type {ICourse} from "@/interfaces/ICourse";
 import type {IChapter} from "@/interfaces/IChapter";
-import ChapterDialog from "@/components/ChapterDialog.vue";
+import MainLayout from "@/layouts/MainLayout.vue"
 import Player from "@/components/Player.vue";
 import Playlist from "@/components/Playlist.vue";
+import ChapterDialog from "@/components/ChapterDialog.vue";
+import Editor from "@/components/Editor.vue";
 
 const db = getFirestore()
 const router = useRoute()
 const isLoading = ref<boolean>(false)
+const editorShow = ref<boolean>(false)
 
 const userId = getAuth().currentUser?.uid
 const courseId = router.params.id as string
 const courseInfo = ref<ICourse | null>(null)
-const chaptersList = ref<IChapter[]>([])
 
+const chaptersList = ref<IChapter[]>([])
 
 const currentPlayerTime = ref<number>(0)
 const currentPlayerTitle = ref<string>('')
+const currentChapterId = ref<string>('')
+const currentChapterText = ref<string>('')
 
 const getOneCourse = async (): Promise<void> => {
 
@@ -72,8 +92,9 @@ const getOneCourse = async (): Promise<void> => {
     isLoading.value = false
   }
 }
+const getAllChapters = async (): Promise<void> => {
+  chaptersList.value = []
 
-const getAllChapters = async () => {
   try {
     isLoading.value = true
 
@@ -98,10 +119,17 @@ const getAllChapters = async () => {
   }
 }
 
-const updatePlayerTime = (time: number, title: string): void => {
+const updateAll = (id: string, time: number, title: string, text: string): void => {
   currentPlayerTime.value = time
   currentPlayerTitle.value = title
+  currentChapterId.value = id
+  editorShow.value = true
+  currentChapterText.value = text
 }
+
+// watch(currentChapterText, (newValue) => {
+//   currentChapterText.value = newValue;
+// })
 
 onMounted(() => {
   getOneCourse()
