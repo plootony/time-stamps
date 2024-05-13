@@ -17,22 +17,27 @@
         </div>
 
         <div class="course__body">
-          <Player
-              :time="currentPlayerTime"
-              :title="currentPlayerTitle"
-          />
+          <div class="course__left">
+            <Player
+                :time="currentPlayerTime"
+                :title="currentPlayerTitle"
+                :link="courseInfo?.link"
+            />
 
-          <playlist
-              :chapters-list="chaptersList"
-              @updateAll="updateAll"
-          />
+            <editor
+                v-if="editorShow"
+                :chapter-id="currentChapterId"
+                :chapter-text="currentChapterText"
+                @update-chapters="getAllChapters"
+            />
+          </div>
+          <div class="course__right">
+            <playlist
+                :chapters-list="chaptersList"
+                @updateAll="updateAll"
+            />
+          </div>
         </div>
-
-        <editor
-            v-if="editorShow"
-            :chapter-id="currentChapterId"
-            :chapter-text="currentChapterText"
-        />
       </div>
     </template>
   </main-layout>
@@ -126,10 +131,6 @@ const updateAll = (id: string, time: number, title: string, text: string): void 
   editorShow.value = true
   currentChapterText.value = text
 }
-
-// watch(currentChapterText, (newValue) => {
-//   currentChapterText.value = newValue;
-// })
 
 onMounted(() => {
   getOneCourse()

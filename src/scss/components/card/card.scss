@@ -31,4 +31,14 @@
     color: $color-grey;
     line-height: 1.4;
   }
+
+  &__link {
+    color: $color-pastel-purple;
+    font-size: 14px;
+
+    &:hover {
+      color: $color-pastel-red;
+      cursor: pointer;
+    }
+  }
 }

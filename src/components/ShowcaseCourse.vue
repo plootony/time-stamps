@@ -26,9 +26,9 @@
     </div>
 
     <button
-        class="btn btn--primary"
+        class="card__link"
         @click.stop="deleteCourse"
-        style="margin-left: auto"
+        style="margin-left: auto; margin-bottom: auto"
     >Удалить
     </button>
   </div>

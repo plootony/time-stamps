@@ -75,9 +75,9 @@ const db = getFirestore()
 const userId = getAuth().currentUser?.uid
 const courseId = router.params.id
 
-const title = ref<string>('');
-const desc = ref<string>('');
-const time = ref<number>(0);
+const title = ref<string>('Глава 1 - Введение в JavaScript');
+const desc = ref<string>('Как писать говнокод и не плакать по ночам');
+const time = ref<number>(100);
 
 const emit = defineEmits(['updateChapters'])
 
