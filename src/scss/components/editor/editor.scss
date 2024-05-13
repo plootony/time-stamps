@@ -13,4 +13,23 @@
     outline: none;
     font-size: 16px;
   }
+
+  .codex-editor {
+    height: 100%;
+  }
+
+  .codex-editor__redactor {
+    padding-bottom: 0 !important;
+    height: 100%;
+  }
+
+  .ce-code__textarea {
+    min-height: 64px !important;
+  }
+
+  &__btn {
+    margin-top: $spacing-md;
+    width: 100%;
+  }
 }
+

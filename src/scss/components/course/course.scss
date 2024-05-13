@@ -21,4 +21,9 @@
     display: flex;
     gap: $spacing-lg;
   }
+
+  &__left,
+  &__right {
+    flex: 1;
+  }
 }

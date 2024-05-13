@@ -58,11 +58,11 @@ import type {ICourse} from "@/interfaces/ICourse";
 import TheModal from "@/components/TheModal.vue";
 
 const db = getFirestore()
-const title = ref<string>('');
-const desc = ref<string>('');
-const image = ref<string>('');
-const link = ref<string>('');
-const tags = ref<string>('');
+const title = ref<string>('Программирование на JavaScript');
+const desc = ref<string>('Научись писать код в JavaScript');
+const image = ref<string>('card-image-1.jpg');
+const link = ref<string>('6DPZZ92bGM0');
+const tags = ref<string>('JavaScript, TypeScript, NODE.JS');
 
 const emit = defineEmits(['updateCourses'])
 const updateCourses = (): void => {
