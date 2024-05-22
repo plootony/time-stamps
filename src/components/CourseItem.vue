@@ -5,7 +5,7 @@
   >
     <img
         class="card__image"
-        :src="`src/assets/images/${course.image}`"
+        :src="course.image"
         width="200" height="170"
         :alt="course.title"
     >

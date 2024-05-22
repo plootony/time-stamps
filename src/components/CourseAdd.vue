@@ -26,11 +26,6 @@
         </div>
 
         <div class="form-group">
-          <label class="form-group__label">Картинка</label>
-          <input @change="getImage" type="file" class="form-group__input">
-        </div>
-
-        <div class="form-group">
           <label class="form-group__label">Ссылка на ютуб</label>
           <input v-model="courseStore.playerLink" type="text" class="form-group__input">
         </div>
@@ -67,7 +62,7 @@ const isLoading = ref<boolean>(false)
 // Данные курса
 const title = ref<string>('')
 const desc = ref<string>('')
-const image = ref<string>('')
+const image = ref<string>('https://www.panchemodan.ru/upload/iblock/e28/seten5uc6lqsx2nfu0y2uoqyer852qme.jpg')
 const tags = ref<string>('')
 const isCompleted = ref<boolean>(false)
 
