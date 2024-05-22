@@ -2,12 +2,15 @@
   <div class="showcase">
     <the-heading/>
 
-    <showcase-cards/>
+    <course-add />
+
+    <course-list />
   </div>
 </template>
 
 <script setup lang="ts">
-import TheHeading from "@/components/TheHeading.vue";
-import ShowcaseCards from "@/components/ShowcaseCourses.vue";
+import TheHeading from "@/components/TheHeading.vue"
+import CourseList from "@/components/CourseList.vue"
+import CourseAdd from "@/components/CourseAdd.vue"
 </script>
 

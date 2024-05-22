@@ -3,9 +3,9 @@ import '@/scss/app.scss'
 import {createApp} from 'vue'
 import {createPinia} from 'pinia'
 
-import App from '../App.vue'
-import router from '../router'
-import {initializeApp} from "firebase/app";
+import App from '@/App.vue'
+import router from '@/router'
+import {initializeApp} from "firebase/app"
 
 const app = createApp(App)
 
@@ -21,6 +21,6 @@ const firebaseConfig = {
     appId: "1:249280867482:web:3ab211074c5b57171c8323"
 };
 
-initializeApp(firebaseConfig);
+initializeApp(firebaseConfig)
 
 app.mount('#app')

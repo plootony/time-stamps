@@ -5,7 +5,10 @@
 </template>
 
 <script setup lang="ts">
-import type {IIcon} from "@/interfaces/IIcon";
+interface IIcon {
+  name: string,
+  modify?: string
+}
 
-defineProps<IIcon>()
+const props = defineProps<IIcon>()
 </script>

@@ -1,7 +1,7 @@
 <template>
   <main-layout>
     <template #content>
-      <div class="course">
+      <div :class="['course', { 'is-loading': isLoading }]">
         <div class="course__heading">
           <div class="course__title-wrapper">
             <button
@@ -10,32 +10,36 @@
             >Назад
             </button>
 
-            <h1 class="course__title">{{ courseInfo?.title }}</h1>
+            <h1 class="course__title">{{ courseDetails.title }}</h1>
           </div>
 
-          <chapter-dialog @update-chapters="getAllChapters"/>
+          <button
+              @click="addChapter"
+              class="btn btn--primary"
+          >Добавить главу
+          </button>
         </div>
 
         <div class="course__body">
           <div class="course__left">
-            <Player
-                :time="currentPlayerTime"
-                :title="currentPlayerTitle"
-                :link="courseInfo?.link"
+
+            <chapter-add
+                :modal-show="isShow"
+                @modal-close="modalClose"
             />
 
-            <editor
-                v-if="editorShow"
-                :chapter-id="currentChapterId"
-                :chapter-text="currentChapterText"
-                @update-chapters="getAllChapters"
+            <the-player
+                v-if="courseStore.playerLink"
+                ref="playerRef"
             />
+
+            <span v-else>Загрузка...</span>
+
+            <the-editor />
           </div>
+
           <div class="course__right">
-            <playlist
-                :chapters-list="chaptersList"
-                @updateAll="updateAll"
-            />
+            <the-playlist />
           </div>
         </div>
       </div>
@@ -44,35 +48,52 @@
 </template>
 
 <script setup lang="ts">
-import {getAuth} from "firebase/auth";
-import {collection, doc, getDoc, getDocs, getFirestore, query} from "firebase/firestore"
-import {useRoute} from "vue-router"
 import {onMounted, ref} from "vue"
-import type {ICourse} from "@/interfaces/ICourse";
-import type {IChapter} from "@/interfaces/IChapter";
 import MainLayout from "@/layouts/MainLayout.vue"
-import Player from "@/components/Player.vue";
-import Playlist from "@/components/Playlist.vue";
-import ChapterDialog from "@/components/ChapterDialog.vue";
-import Editor from "@/components/Editor.vue";
+import ThePlaylist from "@/components/ThePlaylist.vue"
+import TheEditor from "@/components/TheEditor.vue"
+import ThePlayer from "@/components/ThePlayer.vue";
+import ChapterAdd from "@/components/ChapterAdd.vue";
+import {useCourseStore} from "@/stores/course";
+import {doc, getDoc} from "firebase/firestore";
+import {useRoute} from "vue-router";
+import type {ICourse} from "@/interfaces/ICourse";
 
-const db = getFirestore()
+const courseStore = useCourseStore()
 const router = useRoute()
-const isLoading = ref<boolean>(false)
-const editorShow = ref<boolean>(false)
 
-const userId = getAuth().currentUser?.uid
-const courseId = router.params.id as string
-const courseInfo = ref<ICourse | null>(null)
+const isShow = ref(false)
+const playerRef = ref()
+const isLoading = ref(false)
+const userId = courseStore.userId
+const db = courseStore.db
+const courseId = router.params.id
+const courseDetails = ref({} as ICourse)
 
-const chaptersList = ref<IChapter[]>([])
+/** Добавление новой главы */
+const addChapter = (): void => {
+  isShow.value = true
+  getPlayerTime() // Передаем время плеера
+}
 
-const currentPlayerTime = ref<number>(0)
-const currentPlayerTitle = ref<string>('')
-const currentChapterId = ref<string>('')
-const currentChapterText = ref<string>('')
+/** Получение текущей временной метки */
+const getPlayerTime = async (): Promise<void> => {
+  if (playerRef.value === null) return
 
-const getOneCourse = async (): Promise<void> => {
+  try {
+    await playerRef.value.getPlayerTime()
+
+  } catch (error) {
+    console.log('Плеер еще грузится')
+  }
+}
+
+/** Закрытие модального окна */
+const modalClose = (): void => {
+  isShow.value = false
+}
+
+const getCourseDetails = async (): Promise<void> => {
 
   try {
     isLoading.value = true
@@ -86,7 +107,8 @@ const getOneCourse = async (): Promise<void> => {
     const docSnap = await getDoc(docRef)
 
     if (docSnap.exists()) {
-      courseInfo.value = docSnap.data() as ICourse
+      courseDetails.value = docSnap.data() as ICourse
+      courseStore.playerLink = courseDetails.value.link
     } else {
       console.log("Документ не найден")
     }
@@ -97,43 +119,8 @@ const getOneCourse = async (): Promise<void> => {
     isLoading.value = false
   }
 }
-const getAllChapters = async (): Promise<void> => {
-  chaptersList.value = []
-
-  try {
-    isLoading.value = true
-
-    if (!userId) {
-      console.log('Пользователь не найден')
-      return
-    }
-
-    const docRef = query(collection(db, `users/${userId}/courses/${courseId}/chapters/`))
-    const docSnap = await getDocs(docRef)
-
-    if (docSnap) {
-      docSnap.docs.map(doc => {
-        chaptersList.value.push(doc.data() as IChapter)
-      })
-    }
-
-  } catch (error) {
-    console.log(error)
-  } finally {
-    isLoading.value = false
-  }
-}
-
-const updateAll = (id: string, time: number, title: string, text: string): void => {
-  currentPlayerTime.value = time
-  currentPlayerTitle.value = title
-  currentChapterId.value = id
-  editorShow.value = true
-  currentChapterText.value = text
-}
 
 onMounted(() => {
-  getOneCourse()
-  getAllChapters()
+  getCourseDetails()
 })
 </script>
