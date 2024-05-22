@@ -31,7 +31,7 @@
     }
 
     &:hover,
-    &.is-active {
+    &.is-selected {
       background-color: $color-decor-grey;
       color: $color-pastel-purple;
 
@@ -43,9 +43,5 @@
 
   &__item-time {
     color: $color-black;
-  }
-
-  &__form {
-
   }
 }

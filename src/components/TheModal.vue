@@ -26,7 +26,10 @@
 
 <script setup lang="ts">
 import TheIcon from "@/components/TheIcon.vue";
-import type {IModal} from "@/interfaces/IModal";
+
+interface IModal {
+  modalShow: boolean
+}
 
 defineProps<IModal>()
 const emit = defineEmits(['modalClose'])

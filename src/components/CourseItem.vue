@@ -42,6 +42,7 @@ const router = useRouter()
 const props = defineProps<{ course: ICourse }>()
 const emit = defineEmits(['deleteCourse'])
 
+/** Эмитим удаление курса */
 const deleteCourse = (): void => {
   emit('deleteCourse', props.course.id)
 }

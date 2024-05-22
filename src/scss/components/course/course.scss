@@ -3,6 +3,22 @@
   overflow-y: auto;
   max-height: 920px;
 
+  &.is-loading::before {
+    content: 'Загрузка...';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: $color-bg-grey;
+    opacity: 1;
+    pointer-events: none;
+    z-index: 222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   &__heading {
     display: flex;
     align-items: center;

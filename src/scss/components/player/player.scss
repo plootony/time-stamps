@@ -1,8 +1,6 @@
 .player {
+  margin-bottom: $spacing-md;
   flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  align-self: flex-start;
 
   &__title {
     margin: $spacing-md 0;
@@ -16,7 +14,7 @@
   &__frame {
     width: 100%;
     max-height: 430px;
-    height: 10vw;
+    min-height: 10vw;
     background-color: $color-decor-grey;
     box-shadow: $box-shadow;
     border-top-left-radius: 8px;
@@ -24,89 +22,5 @@
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  &__controls {
-    padding: $spacing-sm;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background-color: $color-black;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-  }
-
-  &__btn {
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-
-    .icon {
-      stroke: $color-white;
-    }
-  }
-
-  &__progress {
-    flex-grow: 1;
-
-    &[type="range"] {
-      -moz-appearance: none;
-      appearance: none;
-      -webkit-appearance: none;
-      width: 100%;
-      border-radius: 4px;
-    }
-
-    &[type="range"]::-webkit-slider-runnable-track {
-      -moz-appearance: none;
-      appearance: none;
-      -webkit-appearance: none;
-      height: 10px;
-
-    }
-
-    &[type="range"]::-webkit-slider-thumb {
-      -moz-appearance: none;
-      appearance: none;
-      -webkit-appearance: none;
-      margin-top: -3px;
-      height: 16px;
-      width: 16px;
-      border-radius: 50%;
-      background: $color-pastel-purple;
-      border: 2px solid $color-white;
-      cursor: pointer;
-    }
-  }
-
-  &__time {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 14px;
-    color: $color-white;
-  }
-
-  &__speed {
-    -moz-appearance: none;
-    appearance: none;
-    -webkit-appearance: none;
-    background: none;
-    border: none;
-    color: $color-white;
-    text-align: center;
-
-    option {
-      background: $color-black;
-    }
-  }
-
-  &__info {
-    padding: $spacing-lg;
-    margin-top: $spacing-md;
-    background-color: $color-white;
-    border-radius: 8px;
-    box-shadow: $box-shadow;
   }
 }

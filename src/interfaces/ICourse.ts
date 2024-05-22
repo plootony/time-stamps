@@ -1,4 +1,4 @@
-import type {IChapter} from './IChapter';
+import type {IChapter} from './IChapter'
 
 export interface ICourse {
     id: string,
@@ -9,5 +9,5 @@ export interface ICourse {
     tags: string[],
     createdAt: Date,
     isCompleted: boolean,
-    chapters?: IChapter[];
+    chapters?: IChapter[]
 }
