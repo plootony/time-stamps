@@ -11,7 +11,8 @@
           :class="['playlist__item', {'is-selected' : chapter.id === courseStore.chapterId}]"
           @click="loadChapter(chapter.id)"
       >
-        <div class="playlist__item-title">{{ chapter.title }}</div>
+        <span class="playlist__item-title">{{ chapter.title }}</span>
+        <span class="playlist__item-title">{{ chapter.time }}</span>
       </li>
     </ul>
   </div>
@@ -20,7 +21,7 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
 import {useCourseStore} from "@/stores/course";
-import {collection, getDocs, doc, getDoc, query} from "firebase/firestore";
+import {collection, getDocs, doc, getDoc, query, orderBy} from "firebase/firestore";
 import {useRoute} from "vue-router"
 import type {IChapter} from "@/interfaces/IChapter";
 
@@ -44,7 +45,7 @@ const getChapters = async (): Promise<void> => {
       return
     }
 
-    const docRef = query(collection(db, `users/${userId}/courses/${courseId}/chapters/`))
+    const docRef = query(collection(db, `users/${userId}/courses/${courseId}/chapters/`), orderBy('time', 'asc'))
     const docSnap = await getDocs(docRef)
 
     if (docSnap.empty) {
@@ -53,8 +54,14 @@ const getChapters = async (): Promise<void> => {
     }
 
     if (docSnap) {
-      docSnap.docs.map(doc => {
-        courseStore.chapters.push({...doc.data(), id: doc.id} as IChapter)
+      courseStore.chapters = docSnap.docs.map(doc => {
+        const chapterData = doc.data()
+        console.log('Глава получена', chapterData)
+        return {
+          ...chapterData,
+          id: doc.id,
+          time: Number(chapterData.time)
+        } as IChapter
       })
     }
 
@@ -84,7 +91,7 @@ const loadChapter = async (id: string): Promise<void> => {
       courseStore.chapterId = id
       courseStore.chapterText = chapterData.text || ""
       courseStore.playerTitle = chapterData.title || ""
-      courseStore.playerDesc = chapterData.desc|| ""
+      courseStore.playerDesc = chapterData.desc || ""
       courseStore.playerTime = chapterData.time || ""
       console.log('Загружен текст главы', courseStore.chapterText)
 

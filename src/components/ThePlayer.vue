@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import {ref, watch} from 'vue'
+import {onUnmounted, ref, watch} from 'vue'
 import {useCourseStore} from "@/stores/course";
 import YouTube from 'vue3-youtube'
 
@@ -34,8 +34,14 @@ const getPlayerTime = (): void => {
 
 watch(() => courseStore.playerTime, () => {
   youtube.value.seekTo(courseStore.playerTime)
-  // youtube.value.playVideo()
+  youtube.value.playVideo()
 })
 
 defineExpose({getPlayerTime})
+
+onUnmounted(() => {
+  courseStore.playerLink = ''
+  courseStore.playerTitle = ''
+  courseStore.playerDesc = ''
+})
 </script>

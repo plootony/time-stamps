@@ -120,6 +120,8 @@ const getCourseDetails = async (): Promise<void> => {
   }
 }
 
+
+
 onMounted(() => {
   getCourseDetails()
 })
