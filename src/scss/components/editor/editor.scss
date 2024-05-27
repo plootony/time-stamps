@@ -1,35 +1,35 @@
 .editor {
   padding: $spacing-lg;
-  height: 300px;
+  overflow-y: auto;
+  height: 100%;
   display: flex;
   flex-direction: column;
   background-color: $color-white;
   border-radius: 8px;
   box-shadow: $box-shadow;
 
-  &__input {
-    height: 100%;
-    border: none;
-    outline: none;
-    font-size: 16px;
-  }
-
-  .codex-editor {
-    height: 100%;
-  }
-
-  .codex-editor__redactor {
-    padding-bottom: 0 !important;
-    height: 100%;
-  }
-
-  .ce-code__textarea {
-    min-height: 64px !important;
+  &.is-disabled {
+    pointer-events: none;
+    opacity: .5;
   }
 
   &__btn {
     margin-top: $spacing-md;
     width: 100%;
+  }
+
+  .ce-toolbar__actions {
+    padding: 8px;
+    border-radius: 8px;
+    background: #795dbb;
+
+    svg path {
+      stroke: $color-white;
+    }
+
+   &:hover svg path {
+      stroke: $color-black;
+    }
   }
 }
 

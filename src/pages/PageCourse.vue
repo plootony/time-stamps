@@ -1,7 +1,7 @@
 <template>
   <main-layout>
     <template #content>
-      <div :class="['course', { 'is-loading': isLoading }]">
+      <div v-show="!isLoading" class="course">
         <div class="course__heading">
           <div class="course__title-wrapper">
             <button
@@ -15,12 +15,12 @@
 
           <button
               @click="addChapter"
-              class="btn btn--primary"
+              :class="['btn btn--primary', { 'is-loading': !courseStore.isPlayerReady }]"
           >Добавить главу
           </button>
         </div>
 
-        <div class="course__body">
+        <div :class="['course__body']">
           <div class="course__left">
 
             <chapter-add
@@ -32,14 +32,11 @@
                 v-if="courseStore.playerLink"
                 ref="playerRef"
             />
-
-            <span v-else>Загрузка...</span>
-
-            <the-editor />
+            <the-playlist />
           </div>
 
           <div class="course__right">
-            <the-playlist />
+            <the-editor />
           </div>
         </div>
       </div>
@@ -64,7 +61,7 @@ const router = useRoute()
 
 const isShow = ref(false)
 const playerRef = ref()
-const isLoading = ref(false)
+const isLoading = ref(true)
 const userId = courseStore.userId
 const db = courseStore.db
 const courseId = router.params.id
@@ -73,19 +70,14 @@ const courseDetails = ref({} as ICourse)
 /** Добавление новой главы */
 const addChapter = (): void => {
   isShow.value = true
-  getPlayerTime() // Передаем время плеера
+  getPlayerTime()
 }
 
 /** Получение текущей временной метки */
-const getPlayerTime = async (): Promise<void> => {
-  if (playerRef.value === null) return
+const getPlayerTime =  () => {
+  if (!courseStore.isPlayerReady) return
 
-  try {
-    await playerRef.value.getPlayerTime()
-
-  } catch (error) {
-    console.log('Плеер еще грузится')
-  }
+  playerRef.value.getPlayerTime()
 }
 
 /** Закрытие модального окна */
@@ -119,8 +111,6 @@ const getCourseDetails = async (): Promise<void> => {
     isLoading.value = false
   }
 }
-
-
 
 onMounted(() => {
   getCourseDetails()

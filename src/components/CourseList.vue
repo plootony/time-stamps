@@ -1,5 +1,10 @@
 <template>
-  <div v-if="isLoading"> Загрузка...</div>
+  <div
+      v-if="isLoading && courseStore.courses.length !== 0"
+      class="showcase__loader"
+  ></div>
+
+  <div v-if="courseStore.courses.length === 0">Вы еще не добавили ни одного курса</div>
 
   <div v-else class="showcase__cards">
     <course-item
@@ -51,7 +56,6 @@ const getCourses = async (): Promise<void> => {
     docSnap.docs.map(doc => {
       console.log('Итерируюсь по списку курсов', doc.data())
       courseStore.courses.push(doc.data() as ICourse)
-      console.log('Список курсов построен')
     })
 
   } catch (error) {

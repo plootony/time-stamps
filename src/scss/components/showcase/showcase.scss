@@ -3,6 +3,12 @@
   max-height: 940px;
   overflow: auto;
 
+  &__heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   &__menu {
     margin-bottom: $spacing-md;
     display: flex;
@@ -21,7 +27,6 @@
   }
 
   &__cards {
-    margin-top: $spacing-lg;
     margin-left: -$spacing-md;
     padding: $spacing-sm;
     display: flex;
@@ -35,5 +40,15 @@
     display: flex;
     flex-direction: column;
     gap: $spacing-md;
+  }
+
+  &__loader::before {
+    content: "Загрузка...";
+    font-size: 22px;
+    color: $color-grey;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 }

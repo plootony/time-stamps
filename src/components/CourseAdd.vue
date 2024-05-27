@@ -62,35 +62,29 @@ const isLoading = ref<boolean>(false)
 // Данные курса
 const title = ref<string>('')
 const desc = ref<string>('')
-const image = ref<string>('https://www.panchemodan.ru/upload/iblock/e28/seten5uc6lqsx2nfu0y2uoqyer852qme.jpg')
 const tags = ref<string>('')
 const isCompleted = ref<boolean>(false)
+
+
 
 /** Закрываем модалку */
 const closeModal = (): void => {
   isShow.value = false
 }
 
-/** Получаем название изображения */
-const getImage = (event: Event): void => {
-  const fileInput = event.target as HTMLInputElement
-  const file = fileInput.files?.[0]
-
-  if (file) {
-    image.value = file.name
-  }
-}
-
 /** Добавляем курс в список */
 const addCourse = async (): Promise<void> => {
   if (!userId) return
+
+  const videoId = new URL(courseStore.playerLink).searchParams.get('v');
+  const image = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
 
   console.log('Пытаюсь добавить курс')
   const courseData: ICourse = {
     id: uuidv4(),
     title: title.value,
     desc: desc.value,
-    image: image.value,
+    image: image || 'default.png',
     link: courseStore.playerLink,
     tags: tags.value.split(',').map(tag => tag.trim()),
     createdAt: new Date(),

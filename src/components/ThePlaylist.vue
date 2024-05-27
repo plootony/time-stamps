@@ -65,11 +65,6 @@ const getChapters = async (): Promise<void> => {
       })
     }
 
-    const lastChapter = courseStore.chapters[courseStore.chapters.length - 1]
-    if (lastChapter) {
-      await loadChapter(lastChapter.id)
-    }
-
     console.log('Загрузка завершена', courseStore.chapters)
 
   } catch
@@ -89,11 +84,10 @@ const loadChapter = async (id: string): Promise<void> => {
     if (chapterSnap.exists()) {
       const chapterData = chapterSnap.data()
       courseStore.chapterId = id
-      courseStore.chapterText = chapterData.text || ""
-      courseStore.playerTitle = chapterData.title || ""
-      courseStore.playerDesc = chapterData.desc || ""
-      courseStore.playerTime = chapterData.time || ""
-      console.log('Загружен текст главы', courseStore.chapterText)
+      courseStore.chapterText = chapterData.text
+      courseStore.playerTitle = chapterData.title
+      courseStore.playerDesc = chapterData.desc
+      courseStore.playerTime = chapterData.time
 
     } else {
       console.log('Глава не найдена')
@@ -103,7 +97,11 @@ const loadChapter = async (id: string): Promise<void> => {
   }
 }
 
-onMounted(() => {
-  getChapters()
+onMounted(async  () => {
+ await getChapters()
+
+  if (courseStore.chapters.length) {
+    await  loadChapter(courseStore.chapters[0].id)
+  }
 })
 </script>

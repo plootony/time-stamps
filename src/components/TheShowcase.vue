@@ -1,8 +1,11 @@
 <template>
   <div class="showcase">
-    <the-heading/>
+    <div class="showcase__heading">
+      <the-heading/>
 
-    <course-add />
+      <course-add />
+    </div>
+
 
     <course-list />
   </div>
