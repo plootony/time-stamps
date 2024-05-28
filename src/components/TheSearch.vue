@@ -78,13 +78,14 @@ const filterCourses = (): void => {
 /** Очищает результаты поиска */
 const searchClear = (): void => {
   results.value = []
+  text.value = ''
 }
 
 watch(text, () => {
   if (text.value.length > 2) {
     filterCourses()
   } else {
-    searchClear()
+    results.value = []
   }
 })
 </script>
