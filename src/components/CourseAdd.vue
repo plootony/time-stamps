@@ -59,13 +59,10 @@ const userId = courseStore.userId
 const isShow = ref<boolean>(false)
 const isLoading = ref<boolean>(false)
 
-// Данные курса
 const title = ref<string>('')
 const desc = ref<string>('')
 const tags = ref<string>('')
 const isCompleted = ref<boolean>(false)
-
-
 
 /** Закрываем модалку */
 const closeModal = (): void => {

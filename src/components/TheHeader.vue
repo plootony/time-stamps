@@ -3,15 +3,8 @@
     <span class="header__welcome">Welcome, Anton! 👋</span>
 
     <div class="header__controls">
-      <div class="search">
-        <button class="search__btn">
-          <svg class="icon icon--search icon--lg">
-            <use xlink:href="@/assets/icons/sprite.svg#search"></use>
-          </svg>
-        </button>
 
-        <input class="search__input" type="text" placeholder="Поиск">
-      </div>
+      <TheSearch />
 
       <div class="dropdown">
         <button class="dropdown__btn">
@@ -31,3 +24,6 @@
     </div>
   </header>
 </template>
+<script setup lang="ts">
+import TheSearch from "@/components/TheSearch.vue";
+</script>
