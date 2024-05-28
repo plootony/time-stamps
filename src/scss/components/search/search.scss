@@ -82,7 +82,7 @@
 
   &__result-desc {
     font-size: 12px;
-    height: 32px; /* Высота контейнера, чтобы ограничить количество строк */
+    height: 32px;
     overflow: hidden;
     display: -webkit-box;
     line-clamp: 2;
