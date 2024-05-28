@@ -70,6 +70,7 @@ const courseDetails = ref({} as ICourse)
 /** Добавление новой главы */
 const addChapter = (): void => {
   isShow.value = true
+  courseStore.isPlay = false
   getPlayerTime()
 }
 

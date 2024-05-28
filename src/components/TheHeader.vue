@@ -1,6 +1,5 @@
 <template>
   <header class="header">
-
     <span class="header__welcome">Welcome, Anton! 👋</span>
 
     <div class="header__controls">
@@ -21,7 +20,7 @@
           </svg>
         </button>
       </div>
-      
+
       <div class="dropdown">
         <button class="dropdown__btn">
           <svg class="icon icon--settings icon--lg">

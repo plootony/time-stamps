@@ -24,7 +24,7 @@
     }
   }
 
-  &__content {
+  &__menu {
     min-width: 220px;
     margin-top: $spacing-md;
     position: absolute;
@@ -40,6 +40,12 @@
     color: $color-grey;
     cursor: pointer;
     transition: color .3s;
+    user-select: none;
+
+    &.is-disabled {
+      opacity: .4;
+      pointer-events: none;
+    }
 
     &:not(:last-child) {
       border-bottom: 1px solid $color-decor-grey;
@@ -50,3 +56,4 @@
     }
   }
 }
+

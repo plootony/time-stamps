@@ -25,18 +25,30 @@
       </div>
     </div>
 
-    <button
-        class="card__link"
-        @click.stop="deleteCourse"
-        style="margin-left: auto; margin-bottom: auto"
-    >Удалить
-    </button>
+    <the-dropdown
+        @click.stop
+        modify="card__dropdown"
+    >
+      <template #button-content>
+        <TheIcon name="menu-dots" modify="icon--lg"/>
+      </template>
+
+      <template #content>
+        <ul class="dropdown__menu">
+          <li @click="deleteCourse" class="dropdown__item">Удалить</li>
+
+          <li class="dropdown__item is-disabled">Редактировать</li>
+        </ul>
+      </template>
+    </the-dropdown>
   </div>
 </template>
 
 <script setup lang="ts">
 import {useRouter} from "vue-router";
 import type {ICourse} from "@/interfaces/ICourse";
+import TheDropdown from "@/components/TheDropdown.vue";
+import TheIcon from "@/components/TheIcon.vue";
 
 const router = useRouter()
 const props = defineProps<{ course: ICourse }>()

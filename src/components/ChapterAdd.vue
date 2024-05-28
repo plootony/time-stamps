@@ -11,12 +11,6 @@
 
           <input v-model="title" type="text" class="form-group__input">
         </div>
-
-        <div class="form-group">
-          <label class="form-group__label">Описание</label>
-
-          <input v-model="desc" type="text" class="form-group__input">
-        </div>
       </form>
     </template>
 
@@ -54,7 +48,6 @@ const courseId = router.params.id
 const isShow = ref<boolean>(false)
 const isLoading = ref<boolean>(false)
 const title = ref<string>('')
-const desc = ref<string>('')
 
 const emit = defineEmits(['modalClose'])
 
@@ -68,7 +61,6 @@ const addChapter = async (): Promise<void> => {
   const chapterData: IChapter = {
     id: uuidv4(),
     title: title.value,
-    desc: desc.value,
     time: courseStore.playerTime
   }
 
