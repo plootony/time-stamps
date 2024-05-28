@@ -74,7 +74,7 @@ const addCourse = async (): Promise<void> => {
   if (!userId) return
 
   const videoId = new URL(courseStore.playerLink).searchParams.get('v');
-  const image = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
+  const image = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
 
   console.log('Пытаюсь добавить курс')
   const courseData: ICourse = {

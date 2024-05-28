@@ -1,7 +1,7 @@
 <template>
   <div class="search">
     <button class="search__btn">
-      <TheIcon name="search"/>
+      <TheIcon name="search" modify="icon--lg"/>
     </button>
 
     <input
@@ -11,10 +11,7 @@
         placeholder="Поиск"
     >
 
-    <div
-
-        class="search__result"
-    >
+    <div class="search__result">
       <div
           v-if="results.length"
           v-for="result in results"

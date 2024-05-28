@@ -77,10 +77,17 @@
   &__result-title {
     font-size: 15px;
     font-weight: 500;
+    line-height: 1.2;
   }
 
   &__result-desc {
     font-size: 12px;
+    height: 32px; /* Высота контейнера, чтобы ограничить количество строк */
+    overflow: hidden;
+    display: -webkit-box;
+    line-clamp: 2;
+    white-space: normal;
+    text-overflow: ellipsis;
   }
 }
 
