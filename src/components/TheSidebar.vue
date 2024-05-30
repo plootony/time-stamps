@@ -28,9 +28,9 @@
   </aside>
 </template>
 
-<script setup lang="ts">
-import {getAuth, signOut} from "firebase/auth";
-import {useRouter} from "vue-router";
+<script setup lang='ts'>
+import {getAuth, signOut} from 'firebase/auth'
+import {useRouter} from 'vue-router'
 
 const router = useRouter()
 

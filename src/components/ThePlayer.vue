@@ -27,9 +27,9 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang='ts'>
 import {onUnmounted, ref, watch} from 'vue'
-import {useCourseStore} from "@/stores/course";
+import {useCourseStore} from '@/stores/course'
 import YouTube from 'vue3-youtube'
 
 const courseStore = useCourseStore()

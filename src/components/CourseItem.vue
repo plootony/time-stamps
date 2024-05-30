@@ -44,11 +44,11 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import {useRouter} from "vue-router";
-import type {ICourse} from "@/interfaces/ICourse";
-import TheDropdown from "@/components/TheDropdown.vue";
-import TheIcon from "@/components/TheIcon.vue";
+<script setup lang='ts'>
+import {useRouter} from 'vue-router'
+import type {ICourse} from '@/interfaces/ICourse'
+import TheDropdown from '@/components/TheDropdown.vue'
+import TheIcon from '@/components/TheIcon.vue'
 
 const router = useRouter()
 const props = defineProps<{ course: ICourse }>()

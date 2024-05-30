@@ -18,12 +18,12 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import {onMounted, ref} from "vue";
-import {useCourseStore} from "@/stores/course";
-import {collection, getDocs, doc, getDoc, query, orderBy} from "firebase/firestore";
-import {useRoute} from "vue-router"
-import type {IChapter} from "@/interfaces/IChapter";
+<script setup lang='ts'>
+import {onMounted, ref} from 'vue';
+import {useCourseStore} from '@/stores/course';
+import {collection, getDocs, doc, getDoc, query, orderBy} from 'firebase/firestore'
+import {useRoute} from 'vue-router'
+import type {IChapter} from '@/interfaces/IChapter'
 
 const courseStore = useCourseStore()
 const router = useRoute()
@@ -86,7 +86,6 @@ const loadChapter = async (id: string): Promise<void> => {
       courseStore.chapterId = id
       courseStore.chapterText = chapterData.text
       courseStore.playerTitle = chapterData.title
-      courseStore.playerDesc = chapterData.desc
       courseStore.playerTime = chapterData.time
 
     } else {

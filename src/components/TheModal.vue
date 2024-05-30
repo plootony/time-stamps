@@ -24,8 +24,8 @@
   </Teleport>
 </template>
 
-<script setup lang="ts">
-import TheIcon from "@/components/TheIcon.vue";
+<script setup lang='ts'>
+import TheIcon from '@/components/TheIcon.vue'
 
 interface IModal {
   modalShow: boolean

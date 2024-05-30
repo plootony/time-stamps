@@ -30,14 +30,14 @@
   </the-modal>
 </template>
 
-<script setup lang="ts">
-import {ref} from "vue";
-import TheModal from "@/components/TheModal.vue"
-import {setDoc, doc} from "firebase/firestore"
-import {v4 as uuidv4} from "uuid"
-import type {IChapter} from "@/interfaces/IChapter"
-import {useRoute} from "vue-router"
-import {useCourseStore} from "@/stores/course"
+<script setup lang='ts'>
+import {ref} from 'vue'
+import TheModal from '@/components/TheModal.vue'
+import {setDoc, doc} from 'firebase/firestore'
+import {v4 as uuidv4} from 'uuid'
+import type {IChapter} from '@/interfaces/IChapter'
+import {useRoute} from 'vue-router'
+import {useCourseStore} from '@/stores/course'
 
 const courseStore = useCourseStore()
 const router = useRoute()

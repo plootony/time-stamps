@@ -4,7 +4,7 @@
   </svg>
 </template>
 
-<script setup lang="ts">
+<script setup lang='ts'>
 interface IIcon {
   name: string,
   modify?: string

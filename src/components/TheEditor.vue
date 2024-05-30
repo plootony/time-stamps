@@ -11,19 +11,19 @@
 </template>
 
 <script setup>
-import EditorJS from "@editorjs/editorjs"
-import Header from "@editorjs/header"
-import List from "@editorjs/list"
-import CodeTool from "@editorjs/code"
-import Paragraph from "@editorjs/paragraph"
-import Table from "@editorjs/table"
-import Checklist from "@editorjs/checklist"
-import Delimiter from "@editorjs/delimiter"
+import EditorJS from '@editorjs/editorjs'
+import Header from '@editorjs/header'
+import List from '@editorjs/list'
+import CodeTool from '@editorjs/code'
+import Paragraph from '@editorjs/paragraph'
+import Table from '@editorjs/table'
+import Checklist from '@editorjs/checklist'
+import Delimiter from '@editorjs/delimiter'
 
 import { doc, updateDoc } from 'firebase/firestore'
-import { useRoute } from "vue-router"
-import {onMounted, onUnmounted, watch} from "vue"
-import { useCourseStore } from "@/stores/course"
+import { useRoute } from 'vue-router'
+import {onMounted, onUnmounted, watch} from 'vue'
+import { useCourseStore } from '@/stores/course'
 
 const router = useRoute()
 const courseStore = useCourseStore()

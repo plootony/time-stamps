@@ -45,13 +45,13 @@
   </the-modal>
 </template>
 
-<script setup lang="ts">
-import {ref} from "vue"
-import {doc, setDoc} from "firebase/firestore"
-import {useCourseStore} from "@/stores/course"
-import {v4 as uuidv4} from "uuid";
-import TheModal from "@/components/TheModal.vue"
-import type {ICourse} from "@/interfaces/ICourse"
+<script setup lang='ts'>
+import {ref} from 'vue'
+import {doc, setDoc} from 'firebase/firestore'
+import {useCourseStore} from '@/stores/course'
+import {v4 as uuidv4} from 'uuid'
+import TheModal from '@/components/TheModal.vue'
+import type {ICourse} from '@/interfaces/ICourse'
 
 const courseStore = useCourseStore()
 const db = courseStore.db

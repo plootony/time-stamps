@@ -48,11 +48,11 @@
   ></div>
 </template>
 
-<script setup lang="ts">
-import TheIcon from "@/components/TheIcon.vue"
-import {ref, watch} from "vue";
-import {useCourseStore} from "@/stores/course";
-import type {ICourse} from "@/interfaces/ICourse";
+<script setup lang='ts'>
+import TheIcon from '@/components/TheIcon.vue'
+import {ref, watch} from 'vue'
+import {useCourseStore} from '@/stores/course'
+import type {ICourse} from '@/interfaces/ICourse'
 import {useRouter} from 'vue-router'
 
 const router = useRouter()

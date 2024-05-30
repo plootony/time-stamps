@@ -16,12 +16,12 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import {onMounted, ref} from "vue"
-import {useCourseStore} from "@/stores/course"
-import {deleteDoc, doc, collection, getDocs, orderBy, query} from "firebase/firestore"
-import CourseItem from "@/components/CourseItem.vue"
-import type {ICourse} from "@/interfaces/ICourse"
+<script setup lang='ts'>
+import {onMounted, ref} from 'vue'
+import {useCourseStore} from '@/stores/course'
+import {deleteDoc, doc, collection, getDocs, orderBy, query} from 'firebase/firestore'
+import CourseItem from '@/components/CourseItem.vue'
+import type {ICourse} from '@/interfaces/ICourse'
 
 const courseStore = useCourseStore()
 const db = courseStore.db
