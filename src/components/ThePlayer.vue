@@ -1,68 +1,43 @@
 <template>
-  <div
-      v-show="courseStore.isPlayerReady"
-      class="player"
+  <vue-plyr
+      ref="playerRef"
+      @ready="ready"
   >
-    <YouTube
-        class="player__frame"
-        :src="courseStore.playerLink"
-        ref="youtube"
-        @ready="onReady"
-        width="100%"
-    />
-
-    <div
-        v-if="courseStore.playerTitle"
-        :class="{ 'player__info': courseStore.playerTitle}"
-    >
-      <h2
-          v-if="courseStore.playerTitle"
-          class="player__title"
-      >{{ courseStore.playerTitle }}</h2>
+    <div class="plyr__video-embed">
+      <iframe
+          allowfullscreen
+          allowtransparency
+          allow="autoplay"
+          :src="`${courseStore.playerLink}?amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1`"
+      ></iframe>
     </div>
-  </div>
-
-  <div v-show="!courseStore.isPlayerReady" class="player">
-    <div class="player__frame"></div>
-  </div>
+  </vue-plyr>
 </template>
 
 <script setup lang='ts'>
-import {onUnmounted, ref, watch} from 'vue'
 import {useCourseStore} from '@/stores/course'
-import YouTube from 'vue3-youtube'
+import {ref, watch} from 'vue'
 
 const courseStore = useCourseStore()
-const youtube = ref<any>()
+const playerRef = ref()
 
-const onReady = (event: any) => {
-  youtube.value = event.target
+/** Получение текущей временной метки */
+const getPlayerTime = (): void => {
+  courseStore.playerTime = playerRef.value.player.currentTime
+}
+
+/** Установка текущей временной метки */
+const setPlayerTime = (): void => {
+  playerRef.value.player.currentTime = courseStore.playerTime
+}
+
+/** Подтвреждение загрузки компонента плеера */
+const ready = (): void => {
   courseStore.isPlayerReady = true
 }
 
-/** Получаем время плеера */
-const getPlayerTime = (): void => {
-  if (courseStore.isPlayerReady === false) return
-
-  courseStore.playerTime = youtube.value.getCurrentTime().toFixed()
-}
-
-watch(() => courseStore.playerTime, () => {
-  if (!courseStore.isPlayerReady) return
-
-  if (courseStore.isPlay === true) {
-    youtube.value.seekTo(courseStore.playerTime)
-    youtube.value.playVideo()
-  } else {
-    youtube.value.pauseVideo()
-  }
-})
+/** Обновление текущей временной метки */
+watch(() => courseStore.playerTime, setPlayerTime)
 
 defineExpose({getPlayerTime})
-
-onUnmounted(() => {
-  courseStore.playerLink = ''
-  courseStore.playerTitle = ''
-  courseStore.isPlayerReady = false
-})
 </script>

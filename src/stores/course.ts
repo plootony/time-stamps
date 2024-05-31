@@ -16,7 +16,6 @@ export const useCourseStore = defineStore('course', () => {
     const playerTime = ref<number>(0)
     const playerTitle = ref<string>('')
     const playerLink = ref<string>('')
-    const isPlay = ref<boolean>(false)
 
     const chapters = ref([]) as Ref<IChapter[]>
     const chapterId = ref<string>('')
@@ -32,7 +31,6 @@ export const useCourseStore = defineStore('course', () => {
         chapterId,
         chapterText,
         isPlayerReady,
-        isPlay,
         playerTitle,
         playerLink,
     }
