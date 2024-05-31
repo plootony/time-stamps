@@ -1,28 +1,14 @@
-.player {
-  margin-bottom: $spacing-md;
-  flex-shrink: 0;
+@import '@skjnldsv/vue-plyr/dist/vue-plyr.css';
 
-  &__title {
-    margin: $spacing-md 0;
-    font-size: 22px;
-  }
+//TODO: Перезаписать стили без использования important
+.plyr--video .plyr__control:focus-visible,
+.plyr--video .plyr__control:hover,
+.plyr--video .plyr__control[aria-expanded=true],
+.plyr--full-ui.plyr--video .plyr__control:hover,
+.plyr--full-ui.plyr--video .plyr__control--overlaid {
+  background: $color-pastel-purple !important;
+}
 
-  &__subtitle {
-    margin-top: $spacing-md;
-  }
-
-  &__frame {
-    width: 100%;
-    max-height: 360px;
-    min-height: 360px;
-    height: 100%;
-    background-color: $color-decor-grey;
-    box-shadow: $box-shadow;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
+.plyr--full-ui input[type=range]  {
+  color: $color-pastel-purple !important;
 }

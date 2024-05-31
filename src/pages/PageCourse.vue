@@ -32,6 +32,9 @@
                 v-if="courseStore.playerLink"
                 ref="playerRef"
             />
+
+<!--            <Plyer></Plyer>-->
+
             <the-playlist />
           </div>
 
@@ -55,6 +58,7 @@ import {useCourseStore} from "@/stores/course";
 import {doc, getDoc} from "firebase/firestore";
 import {useRoute} from "vue-router";
 import type {ICourse} from "@/interfaces/ICourse";
+import Plyer from "@/components/Plyer.vue";
 
 const courseStore = useCourseStore()
 const router = useRoute()
@@ -70,7 +74,6 @@ const courseDetails = ref({} as ICourse)
 /** Добавление новой главы */
 const addChapter = (): void => {
   isShow.value = true
-  courseStore.isPlay = false
   getPlayerTime()
 }
 

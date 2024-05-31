@@ -26,6 +26,7 @@
     "@editorjs/simple-image": "^1.6.0",
     "@editorjs/table": "^2.3.0",
     "@editorjs/warning": "^1.4.0",
+    "@skjnldsv/vue-plyr": "^7.5.0",
     "firebase": "^10.11.1",
     "pinia": "^2.1.7",
     "uuid": "^9.0.1",
