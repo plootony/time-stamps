@@ -1,85 +1,58 @@
 <template>
-  <div :class="['editor', { 'is-disabled': !courseStore.chapterId }]">
-    <div  ref="editor" id="editor" class="editor__input"></div>
-  </div>
-
+  <QuillEditor
+      @ready="ready"
+      ref="editorRef"
+      theme="snow"
+  />
+  <br>
   <button
-      v-if="courseStore.chapterId"
-      class="btn btn--primary editor__btn"
+      class="btn btn--primary"
       @click="saveChapter"
-  >Сохранить</button>
+  >Сохранить главу
+  </button>
 </template>
 
-<script setup>
-import EditorJS from '@editorjs/editorjs'
-import Header from '@editorjs/header'
-import List from '@editorjs/list'
-import CodeTool from '@editorjs/code'
-import Paragraph from '@editorjs/paragraph'
-import Table from '@editorjs/table'
-import Checklist from '@editorjs/checklist'
-import Delimiter from '@editorjs/delimiter'
-
-import { doc, updateDoc } from 'firebase/firestore'
-import { useRoute } from 'vue-router'
-import {onMounted, onUnmounted, watch} from 'vue'
-import { useCourseStore } from '@/stores/course'
+<script setup lang="ts">
+import {ref, watch} from 'vue'
+import {useCourseStore} from "@/stores/course"
+import {doc, updateDoc} from 'firebase/firestore'
+import {useRoute} from 'vue-router'
+import {QuillEditor} from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css'
 
 const router = useRoute()
 const courseStore = useCourseStore()
-const courseId = router.params.id
-let editorjs = null
+const courseId = router.params.id as string
+const editorRef = ref<InstanceType<typeof QuillEditor> | null>(null)
+const isReady = ref<boolean>(false)
 
-const saveChapter = async () => {
+const ready = (): void => {
+  isReady.value = true
+}
+
+/** Получаем текст главы из эдитора */
+const saveChapter = async (): Promise<void> => {
   const chapterRef = doc(courseStore.db, `users/${courseStore.userId}/courses/${courseId}/chapters/${courseStore.chapterId}`)
-
   try {
-    const savedData = await editorjs.save()
-    courseStore.chapterText = JSON.stringify(savedData)
-
+    if (editorRef.value === null || !isReady.value) return
+    courseStore.chapterText = editorRef.value.getHTML()
     await updateDoc(chapterRef, {
       text: courseStore.chapterText
     })
-
     console.log('Глава успешно сохранена!')
-
   } catch (error) {
     console.error('Сохранить главу не удалось!', error)
   }
 }
 
-onMounted(() => {
-  const initializeEditor = (text) => {
-    if (editorjs) {
-      editorjs.destroy()
-    }
+/** Записываем текст главы в эдитор */
+const setChapter = () => {
+  if (editorRef.value === null || !isReady.value) return
+  editorRef.value.setHTML(courseStore.chapterText)
+}
 
-    editorjs = new EditorJS({
-      holder: "editor",
-      placeholder: 'Начните свою историю здесь!',
-      data: text ? JSON.parse(text) : {},
-      tools: {
-        header: Header,
-        list: List,
-        code: CodeTool,
-        paragraph: Paragraph,
-        table: Table,
-        checklist: Checklist,
-        delimiter: Delimiter,
-      },
-    })
-  }
-
-  watch(() => courseStore.chapterText, (newValue) => {
-    initializeEditor(newValue)
-    console.log('текст главы в вотчере', courseStore.chapterText)
-  })
-
-  initializeEditor(courseStore.chapterText)
+watch(() => courseStore.chapterId, (): void => {
+  setChapter()
 })
-
-onUnmounted(() => {
-  courseStore.chapterId = null
-})
-
 </script>
+
