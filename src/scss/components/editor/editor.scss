@@ -1,4 +1,8 @@
+@import '@vueup/vue-quill/dist/vue-quill.snow.css';
+@import 'highlight.js/styles/atom-one-dark.css';
+
 .editor {
+  margin-bottom: $spacing-md;
   padding: $spacing-lg;
   overflow-y: auto;
   height: 100%;
@@ -18,18 +22,14 @@
     width: 100%;
   }
 
-  .ce-toolbar__actions {
-    padding: 8px;
-    border-radius: 8px;
-    background: #795dbb;
+  .ql-container {
+    overflow: auto;
+    max-height: 600px;
+  }
 
-    svg path {
-      stroke: $color-white;
-    }
-
-   &:hover svg path {
-      stroke: $color-black;
-    }
+  // TODO: Разобраться почему по умолчанию нет стиля strong
+  .ql-editor strong {
+    font-weight: 700;
   }
 }
 

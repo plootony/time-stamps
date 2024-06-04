@@ -33,8 +33,6 @@
                 ref="playerRef"
             />
 
-<!--            <Plyer></Plyer>-->
-
             <the-playlist />
           </div>
 
@@ -58,7 +56,6 @@ import {useCourseStore} from "@/stores/course";
 import {doc, getDoc} from "firebase/firestore";
 import {useRoute} from "vue-router";
 import type {ICourse} from "@/interfaces/ICourse";
-import Plyer from "@/components/Plyer.vue";
 
 const courseStore = useCourseStore()
 const router = useRoute()

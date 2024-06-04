@@ -1,10 +1,14 @@
 <template>
-  <QuillEditor
-      @ready="ready"
-      ref="editorRef"
-      theme="snow"
-  />
-  <br>
+  <div class="editor">
+    <QuillEditor
+        @ready="ready"
+        ref="editorRef"
+        theme="snow"
+        toolbar="full"
+        @text-change="highlightCode"
+    />
+  </div>
+
   <button
       class="btn btn--primary"
       @click="saveChapter"
@@ -12,13 +16,14 @@
   </button>
 </template>
 
+
 <script setup lang="ts">
 import {ref, watch} from 'vue'
 import {useCourseStore} from "@/stores/course"
 import {doc, updateDoc} from 'firebase/firestore'
 import {useRoute} from 'vue-router'
 import {QuillEditor} from '@vueup/vue-quill'
-import '@vueup/vue-quill/dist/vue-quill.snow.css'
+import hljs from 'highlight.js'
 
 const router = useRoute()
 const courseStore = useCourseStore()
@@ -51,8 +56,16 @@ const setChapter = () => {
   editorRef.value.setHTML(courseStore.chapterText)
 }
 
+const highlightCode = () => {
+  const elements = document.querySelectorAll('.ql-syntax');
+  elements.forEach((block) => {
+    hljs.highlightBlock(block as HTMLElement);
+  })
+}
+
 watch(() => courseStore.chapterId, (): void => {
   setChapter()
 })
+
 </script>
 
