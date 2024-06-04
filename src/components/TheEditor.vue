@@ -6,16 +6,13 @@
         theme="snow"
         toolbar="full"
         @text-change="highlightCode"
-    />
-  </div>
+    /></div>
 
   <button
       class="btn btn--primary"
       @click="saveChapter"
-  >Сохранить главу
-  </button>
+  >Сохранить главу</button>
 </template>
-
 
 <script setup lang="ts">
 import {ref, watch} from 'vue'
@@ -51,12 +48,13 @@ const saveChapter = async (): Promise<void> => {
 }
 
 /** Записываем текст главы в эдитор */
-const setChapter = () => {
+const setChapter = (): void => {
   if (editorRef.value === null || !isReady.value) return
   editorRef.value.setHTML(courseStore.chapterText)
 }
 
-const highlightCode = () => {
+/** Подсветка кода */
+const highlightCode = (): void => {
   const elements = document.querySelectorAll('.ql-syntax');
   elements.forEach((block) => {
     hljs.highlightBlock(block as HTMLElement);
@@ -66,6 +64,5 @@ const highlightCode = () => {
 watch(() => courseStore.chapterId, (): void => {
   setChapter()
 })
-
 </script>
 
