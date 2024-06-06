@@ -33,13 +33,16 @@
                 ref="playerRef"
             />
 
-            <the-playlist />
+
           </div>
 
           <div class="course__right">
-            <the-editor />
+<!--            <the-editor />-->
+            <the-playlist />
           </div>
+
         </div>
+        <CustomQuillEditor />
       </div>
     </template>
   </main-layout>
@@ -56,6 +59,7 @@ import {useCourseStore} from "@/stores/course";
 import {doc, getDoc} from "firebase/firestore";
 import {useRoute} from "vue-router";
 import type {ICourse} from "@/interfaces/ICourse";
+import CustomQuillEditor from "@/components/CustomQuillEditor.vue";
 
 const courseStore = useCourseStore()
 const router = useRoute()
