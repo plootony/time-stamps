@@ -1,14 +1,13 @@
 .course {
   display: flex;
   flex-direction: column;
-  height: 920px;
 
   &__heading {
+    margin: $spacing-md 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: $spacing-md;
-    height: 100px;
   }
 
   &__title-wrapper {
@@ -23,10 +22,10 @@
 
   &__body {
     margin-bottom: $spacing-md;
-    height: 50%;
-    width: calc(100% - 32px);
+    height: 31%;
+    width: calc(100% - 16px);
     display: flex;
-    gap: $spacing-lg;
+    gap: $spacing-md;
     position: relative;
 
     &.is-loading::before {

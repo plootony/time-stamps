@@ -1,7 +1,10 @@
 <template>
   <main-layout>
     <template #content>
-      <div v-show="!isLoading" class="course">
+      <div
+          v-show="!isLoading"
+          class="course"
+      >
         <div class="course__heading">
           <div class="course__title-wrapper">
             <button
@@ -22,7 +25,6 @@
 
         <div :class="['course__body']">
           <div class="course__left">
-
             <chapter-add
                 :modal-show="isShow"
                 @modal-close="modalClose"
@@ -32,17 +34,14 @@
                 v-if="courseStore.playerLink"
                 ref="playerRef"
             />
-
-
           </div>
 
           <div class="course__right">
-<!--            <the-editor />-->
-            <the-playlist />
+            <the-playlist/>
           </div>
-
         </div>
-        <CustomQuillEditor />
+
+        <the-editor/>
       </div>
     </template>
   </main-layout>
@@ -59,7 +58,6 @@ import {useCourseStore} from "@/stores/course";
 import {doc, getDoc} from "firebase/firestore";
 import {useRoute} from "vue-router";
 import type {ICourse} from "@/interfaces/ICourse";
-import CustomQuillEditor from "@/components/CustomQuillEditor.vue";
 
 const courseStore = useCourseStore()
 const router = useRoute()
@@ -79,7 +77,7 @@ const addChapter = (): void => {
 }
 
 /** Получение текущей временной метки */
-const getPlayerTime =  () => {
+const getPlayerTime = () => {
   if (!courseStore.isPlayerReady) return
 
   playerRef.value.getPlayerTime()
@@ -91,7 +89,6 @@ const modalClose = (): void => {
 }
 
 const getCourseDetails = async (): Promise<void> => {
-
   try {
     isLoading.value = true
 
