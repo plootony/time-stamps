@@ -12,14 +12,14 @@
           @click="loadChapter(chapter.id)"
       >
         <span class="playlist__item-title">{{ chapter.title }}</span>
-        <span class="playlist__item-title">{{ chapter.time }}</span>
+        <span class="playlist__item-title">{{ chapter.time.toFixed() }}</span>
       </li>
     </ul>
   </div>
 </template>
 
 <script setup lang='ts'>
-import {onMounted, ref} from 'vue';
+import {onMounted, ref, watch} from 'vue';
 import {useCourseStore} from '@/stores/course';
 import {collection, getDocs, doc, getDoc, query, orderBy} from 'firebase/firestore'
 import {useRoute} from 'vue-router'
@@ -96,11 +96,15 @@ const loadChapter = async (id: string): Promise<void> => {
   }
 }
 
-onMounted(async  () => {
- await getChapters()
+onMounted(async () => {
+  await getChapters()
 
   if (courseStore.chapters.length) {
-    await  loadChapter(courseStore.chapters[0].id)
+    await loadChapter(courseStore.chapters[0].id)
   }
 })
+
+watch(() => courseStore.chapters, async () => {
+  await loadChapter(courseStore.chapters[courseStore.chapters.length - 1].id)
+}, {deep: true})
 </script>

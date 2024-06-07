@@ -19,7 +19,7 @@ export const useCourseStore = defineStore('course', () => {
 
     const chapters = ref([]) as Ref<IChapter[]>
     const chapterId = ref<string>('')
-    const chapterText = ref<string>('12')
+    const chapterText = ref<string>('')
 
     return {
         db,

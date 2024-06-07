@@ -1,5 +1,7 @@
 <template>
-  <div class="editor">
+  <h2 v-if="courseStore.playerTitle" class="editor__title">{{ courseStore.playerTitle }}</h2>
+
+  <div v-show="courseStore.chapters.length" class="editor">
     <!--  TODO: Привести верстку в порядок -->
     <div
         style="width: 20%;
@@ -75,12 +77,18 @@
       </button>
     </div>
 
-    <QuillEditor
-        :options="editorOptions"
-        @ready="ready"
-        ref="editorRef"
-        @text-change="highlightCode"
-    />
+    <div v-show="courseStore.chapters.length" style="width: 80%;">
+      <QuillEditor
+          :options="editorOptions"
+          @ready="ready"
+          ref="editorRef"
+          @text-change="highlightCode"
+      />
+    </div>
+  </div>
+
+  <div v-show="courseStore.chapters.length === 0">
+    Создайте главу, для того, чтобы начать конспектировать
   </div>
 </template>
 
@@ -89,9 +97,10 @@ import {ref, watch} from 'vue'
 import {useCourseStore} from "@/stores/course"
 import {doc, updateDoc} from 'firebase/firestore'
 import {useRoute} from 'vue-router'
-import {QuillEditor} from '@vueup/vue-quill'
-import {type QuillOptionsStatic} from 'quill';
 import hljs from 'highlight.js'
+import {QuillEditor} from '@vueup/vue-quill'
+import {type QuillOptionsStatic} from 'quill'
+
 
 const router = useRoute()
 const courseStore = useCourseStore()
@@ -101,7 +110,8 @@ const isReady = ref<boolean>(false)
 const editorOptions: QuillOptionsStatic = {
   modules: {
     toolbar: '#toolbar',
-  }
+  },
+  placeholder: 'Начните свою историю здесь...',
 }
 
 /** Проверка загрузки эдитора */
@@ -127,6 +137,11 @@ const saveChapter = async (): Promise<void> => {
 /** Записываем текст главы в эдитор */
 const setChapter = (): void => {
   if (editorRef.value === null || !isReady.value) return
+
+  if (typeof courseStore.chapterText === 'undefined') {
+    courseStore.chapterText = ''
+  }
+
   editorRef.value.setHTML(courseStore.chapterText)
 }
 
