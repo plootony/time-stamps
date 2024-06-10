@@ -6,6 +6,8 @@ import {createPinia} from 'pinia'
 
 import App from '@/App.vue'
 import router from '@/router'
+import Vue3Toastify, { type ToastContainerOptions } from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'
 import VuePlyr from '@skjnldsv/vue-plyr'
 
 import {initializeApp} from 'firebase/app'
@@ -15,6 +17,9 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 app.use(VuePlyr)
+app.use(Vue3Toastify, {
+    autoClose: 3000,
+} as ToastContainerOptions);
 
 const firebaseConfig = {
     apiKey: 'AIzaSyCmYbBbcFNx_basy918tHuJTcaIPo5A3g4',

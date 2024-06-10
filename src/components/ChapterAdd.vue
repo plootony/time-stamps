@@ -38,6 +38,7 @@ import {v4 as uuidv4} from 'uuid'
 import type {IChapter} from '@/interfaces/IChapter'
 import {useRoute} from 'vue-router'
 import {useCourseStore} from '@/stores/course'
+import {toast} from "vue3-toastify";
 
 const courseStore = useCourseStore()
 const router = useRoute()
@@ -70,10 +71,12 @@ const addChapter = async (): Promise<void> => {
     isLoading.value = true
     await setDoc(doc(db, `users/${userId}/courses/${courseId}/chapters/${chapterData.id}`), chapterData)
     courseStore.chapters.push(chapterData)
+    toast.success('Глава успешно добавлена!')
     console.log('Глава успешно добавлена', courseStore.chapters)
     modalClose()
   } catch (error) {
-    console.log('Не удалось добавить главу', error)
+    toast.error('Не удалось добавить главу!')
+    console.log('Не удалось добавить главу!', error)
   } finally {
     isLoading.value = false
   }

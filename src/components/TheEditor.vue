@@ -77,7 +77,10 @@
       </button>
     </div>
 
-    <div v-show="courseStore.chapters.length" style="width: 80%;">
+    <div
+        v-show="courseStore.chapters.length"
+        style="width: 80%;"
+    >
       <QuillEditor
           :options="editorOptions"
           @ready="ready"
@@ -94,12 +97,13 @@
 
 <script setup lang="ts">
 import {ref, watch} from 'vue'
-import {useCourseStore} from "@/stores/course"
+import {useCourseStore} from '@/stores/course'
 import {doc, updateDoc} from 'firebase/firestore'
 import {useRoute} from 'vue-router'
 import hljs from 'highlight.js'
 import {QuillEditor} from '@vueup/vue-quill'
 import {type QuillOptionsStatic} from 'quill'
+import {toast} from "vue3-toastify";
 
 
 const router = useRoute()
@@ -128,8 +132,10 @@ const saveChapter = async (): Promise<void> => {
     await updateDoc(chapterRef, {
       text: courseStore.chapterText
     })
+    toast.success('Глава успешно сохранена!')
     console.log('Глава успешно сохранена!')
   } catch (error) {
+    toast.success('Сохранить главу не удалось!')
     console.error('Сохранить главу не удалось!', error)
   }
 }
@@ -154,7 +160,9 @@ const highlightCode = (): void => {
 }
 
 watch(() => courseStore.chapterId, (): void => {
-  setChapter()
+  if (courseStore.chapterId) {
+    setChapter()
+  }
 })
 </script>
 

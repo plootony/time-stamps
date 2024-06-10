@@ -105,6 +105,8 @@ onMounted(async () => {
 })
 
 watch(() => courseStore.chapters, async () => {
+  if (courseStore.chapters.length === 0) return
+
   await loadChapter(courseStore.chapters[courseStore.chapters.length - 1].id)
 }, {deep: true})
 </script>
