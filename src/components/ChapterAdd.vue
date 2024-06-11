@@ -54,6 +54,7 @@ const emit = defineEmits(['modalClose'])
 
 // Закрытие модального окна
 const modalClose = () => {
+  title.value = ''
   emit('modalClose')
 }
 

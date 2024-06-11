@@ -12,18 +12,19 @@
           @click="loadChapter(chapter.id)"
       >
         <span class="playlist__item-title">{{ chapter.title }}</span>
-        <span class="playlist__item-title">{{ chapter.time.toFixed() }}</span>
+        <span class="playlist__item-title">{{ formatTime(chapter.time) }}</span>
       </li>
     </ul>
   </div>
 </template>
 
 <script setup lang='ts'>
-import {onMounted, ref, watch} from 'vue';
-import {useCourseStore} from '@/stores/course';
+import {onMounted, ref, watch} from 'vue'
+import {useCourseStore} from '@/stores/course'
 import {collection, getDocs, doc, getDoc, query, orderBy} from 'firebase/firestore'
 import {useRoute} from 'vue-router'
 import type {IChapter} from '@/interfaces/IChapter'
+import { formatTime } from '@/helpers/timeFormatter'
 
 const courseStore = useCourseStore()
 const router = useRoute()

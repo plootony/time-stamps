@@ -95,7 +95,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang='ts'>
 import {ref, watch} from 'vue'
 import {useCourseStore} from '@/stores/course'
 import {doc, updateDoc} from 'firebase/firestore'
@@ -103,8 +103,7 @@ import {useRoute} from 'vue-router'
 import hljs from 'highlight.js'
 import {QuillEditor} from '@vueup/vue-quill'
 import {type QuillOptionsStatic} from 'quill'
-import {toast} from "vue3-toastify";
-
+import {toast} from 'vue3-toastify'
 
 const router = useRoute()
 const courseStore = useCourseStore()

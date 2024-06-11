@@ -46,7 +46,7 @@
 </template>
 
 <script setup lang='ts'>
-import {ref} from 'vue'
+import {onUnmounted, ref} from 'vue'
 import {doc, setDoc} from 'firebase/firestore'
 import {useCourseStore} from '@/stores/course'
 import {v4 as uuidv4} from 'uuid'
@@ -64,9 +64,14 @@ const desc = ref<string>('')
 const tags = ref<string>('')
 const isCompleted = ref<boolean>(false)
 
-/** Закрываем модалку */
+/** Закрываем модалку / очищаем данные */
 const closeModal = (): void => {
   isShow.value = false
+  courseStore.playerLink = ''
+  title.value = ''
+  desc.value = ''
+  tags.value = ''
+  isLoading.value = false
 }
 
 /** Добавляем курс в список */
@@ -95,8 +100,8 @@ const addCourse = async (): Promise<void> => {
   } catch (error) {
     console.log('Ошибка при добавлении курса', error)
   } finally {
-    isLoading.value = false
     closeModal()
   }
 }
+
 </script>

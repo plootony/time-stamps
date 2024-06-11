@@ -26,7 +26,7 @@ import type {ICourse} from '@/interfaces/ICourse'
 const courseStore = useCourseStore()
 const db = courseStore.db
 const userId = courseStore.userId
-const isLoading = ref<boolean>(false)
+const isLoading = ref<boolean>(true)
 
 /** Получаем список курсов */
 const getCourses = async (): Promise<void> => {
