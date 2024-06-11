@@ -60,8 +60,10 @@
 import {computed, ref} from 'vue'
 import GuestLayout from '@/layouts/GuestLayout.vue'
 import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth'
+import {FirebaseError} from '@firebase/util'
 import {useRouter} from 'vue-router'
 import {toast} from 'vue3-toastify'
+
 
 const router = useRouter()
 const isAuth = ref<boolean>(false)
@@ -93,6 +95,43 @@ const redirect = (): void => {
   router.push('/')
 }
 
+/** Обработка ошибок */
+function authErrors(error: FirebaseError) {
+  if (error) {
+    switch (error.code) {
+      case 'auth/email-already-in-use':
+        toast.error('Такой email уже используется')
+        break;
+      case 'auth/operation-not-allowed':
+        toast.error('Операция не разрешена')
+        break
+      case 'auth/too-many-requests':
+        toast.error('Превышено количество запросов. Повторите попытку позже.')
+        break
+      case 'auth/invalid-email':
+        toast.error('Недопустимый формат email')
+        break
+      case 'auth/user-disabled':
+        toast.error('Пользователь отключен')
+        break;
+      case 'auth/user-not-found':
+        toast.error('Пользователь не найден')
+        break
+      case 'auth/wrong-password':
+        toast.error('Неверный пароль')
+        break
+      case 'auth/weak-password':
+        toast.error('Слабый пароль. Пароль должен быть не менее 6 символов')
+        break
+      default:
+        toast.error('Произошла непредвиденная ошибка: ' + error.message)
+        break;
+    }
+  } else {
+    toast.error('Произошла ошибка: ' + error)
+  }
+}
+
 /** Регистрация */
 const signUp = async (): Promise<void> => {
   isLoading.value = true
@@ -111,9 +150,10 @@ const signUp = async (): Promise<void> => {
     setInterval(redirect, 3000)
   } catch (error: unknown) {
 
-    if (error instanceof Error) {
-      toast.error(error.message)
+    if (error instanceof FirebaseError) {
+      authErrors(error)
     }
+
   } finally {
     isLoading.value = false
   }
@@ -131,9 +171,10 @@ const signIn = async (): Promise<void> => {
     setInterval(redirect, 3000)
   } catch (error: unknown) {
 
-    if (error instanceof Error) {
-      toast.error(error.message)
+    if (error instanceof FirebaseError) {
+      authErrors(error)
     }
+
   } finally {
     isLoading.value = false
   }
