@@ -64,7 +64,6 @@ import {FirebaseError} from '@firebase/util'
 import {useRouter} from 'vue-router'
 import {toast} from 'vue3-toastify'
 
-
 const router = useRouter()
 const isAuth = ref<boolean>(false)
 const isLoading = ref<boolean>(false)
@@ -117,8 +116,8 @@ function authErrors(error: FirebaseError) {
       case 'auth/user-not-found':
         toast.error('Пользователь не найден')
         break
-      case 'auth/wrong-password':
-        toast.error('Неверный пароль')
+      case 'auth/invalid-credential':
+        toast.error('Неверный логин или пароль')
         break
       case 'auth/weak-password':
         toast.error('Слабый пароль. Пароль должен быть не менее 6 символов')
@@ -128,7 +127,7 @@ function authErrors(error: FirebaseError) {
         break
     }
   } else {
-    toast.error('Произошла ошибка: ' + error)
+    toast.error('Произошла непредвиденная ошибка: ' + error)
   }
 }
 
