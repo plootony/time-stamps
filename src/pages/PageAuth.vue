@@ -101,7 +101,7 @@ function authErrors(error: FirebaseError) {
     switch (error.code) {
       case 'auth/email-already-in-use':
         toast.error('Такой email уже используется')
-        break;
+        break
       case 'auth/operation-not-allowed':
         toast.error('Операция не разрешена')
         break
@@ -113,7 +113,7 @@ function authErrors(error: FirebaseError) {
         break
       case 'auth/user-disabled':
         toast.error('Пользователь отключен')
-        break;
+        break
       case 'auth/user-not-found':
         toast.error('Пользователь не найден')
         break
@@ -125,7 +125,7 @@ function authErrors(error: FirebaseError) {
         break
       default:
         toast.error('Произошла непредвиденная ошибка: ' + error.message)
-        break;
+        break
     }
   } else {
     toast.error('Произошла ошибка: ' + error)
