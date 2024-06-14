@@ -7,7 +7,7 @@
 
           <p class="auth-form__subtitle">{{ subtitle }}</p>
 
-          <div :class="['form-group', {'is-loading' : isLoading}]">
+          <div :class="['form-group', {'is-loading' : isLoading, 'is-error' : errors.email}]">
             <label class="form-group__label">Введите логин</label>
 
             <input
@@ -17,7 +17,7 @@
                 v-model="email">
           </div>
 
-          <div :class="['form-group', {'is-loading' : isLoading}]">
+          <div :class="['form-group', {'is-loading' : isLoading, 'is-error' : errors.password}]">
             <label class="form-group__label">Введите пароль</label>
 
             <input
@@ -28,7 +28,8 @@
             >
           </div>
 
-          <div v-if="!isAuth" :class="['form-group', {'is-loading' : isLoading}]">
+          <div v-if="!isAuth"
+               :class="['form-group', {'is-loading' : isLoading, 'is-error' : errors.password}]">
             <label class="form-group__label">Повторите пароль</label>
 
             <input
@@ -72,11 +73,34 @@ const email = ref<string>('')
 const password = ref<string>('')
 const passwordConfirm = ref<string>('')
 
+interface IErrors {
+  email: boolean
+  password: boolean
+}
+
+const errors = ref<IErrors>({
+  email: false,
+  password: false,
+})
+
 const toggleAuth = (): void => {
+  isAuth.value = !isAuth.value
+  clearForm()
+  clearErrors()
+}
+
+//** Очищаем инптуы*/
+const clearForm = (): void => {
   email.value = ''
   password.value = ''
   passwordConfirm.value = ''
-  isAuth.value = !isAuth.value
+
+}
+
+/** Очищаем ошибки */
+const clearErrors = (): void => {
+  errors.value.email = false
+  errors.value.password = false
 }
 
 /** Переключение форм */
@@ -89,10 +113,7 @@ const submitForm = (): void => {
   }
 }
 
-/** Редирект на главную */
-const redirect = (): void => {
-  router.push('/')
-}
+// TODO: Возможно стоит вывести ошибки непосредственно под инпутом
 
 /** Обработка ошибок */
 function authErrors(error: FirebaseError) {
@@ -100,27 +121,23 @@ function authErrors(error: FirebaseError) {
     switch (error.code) {
       case 'auth/email-already-in-use':
         toast.error('Такой email уже используется')
-        break
-      case 'auth/operation-not-allowed':
-        toast.error('Операция не разрешена')
-        break
-      case 'auth/too-many-requests':
-        toast.error('Превышено количество запросов. Повторите попытку позже.')
-        break
-      case 'auth/invalid-email':
-        toast.error('Недопустимый формат email')
-        break
-      case 'auth/user-disabled':
-        toast.error('Пользователь отключен')
-        break
-      case 'auth/user-not-found':
-        toast.error('Пользователь не найден')
+        errors.value.email = true
         break
       case 'auth/invalid-credential':
         toast.error('Неверный логин или пароль')
+        errors.value.email = true
+        break
+      case 'auth/invalid-email':
+        toast.error('Недопустимый формат email')
+        errors.value.email = true
         break
       case 'auth/weak-password':
         toast.error('Слабый пароль. Пароль должен быть не менее 6 символов')
+        errors.value.password = true
+        break
+      case 'auth/missing-password':
+        toast.error('Необходимо ввести пароль')
+        errors.value.password = true
         break
       default:
         toast.error('Произошла непредвиденная ошибка: ' + error.message)
@@ -133,6 +150,8 @@ function authErrors(error: FirebaseError) {
 
 /** Регистрация */
 const signUp = async (): Promise<void> => {
+  clearErrors()
+
   isLoading.value = true
 
   if (password.value !== passwordConfirm.value) {
@@ -144,9 +163,7 @@ const signUp = async (): Promise<void> => {
   try {
     await createUserWithEmailAndPassword(getAuth(), email.value, password.value)
 
-    toast.success('Вы успешно зарегистрировались!')
-
-    setInterval(redirect, 3000)
+    router.push('/')
   } catch (error: unknown) {
 
     if (error instanceof FirebaseError) {
@@ -160,14 +177,13 @@ const signUp = async (): Promise<void> => {
 
 /** Авторизация*/
 const signIn = async (): Promise<void> => {
+  clearErrors()
   isLoading.value = true
 
   try {
     await signInWithEmailAndPassword(getAuth(), email.value, password.value)
 
-    toast.success('Вы успешно авторизовались!')
-
-    setInterval(redirect, 3000)
+    router.push('/')
   } catch (error: unknown) {
 
     if (error instanceof FirebaseError) {

@@ -72,12 +72,15 @@ const addChapter = async (): Promise<void> => {
     isLoading.value = true
     await setDoc(doc(db, `users/${userId}/courses/${courseId}/chapters/${chapterData.id}`), chapterData)
     courseStore.chapters.push(chapterData)
+
     toast.success('Глава успешно добавлена!')
     console.log('Глава успешно добавлена', courseStore.chapters)
     modalClose()
+
   } catch (error) {
     toast.error('Не удалось добавить главу!')
     console.log('Не удалось добавить главу!', error)
+
   } finally {
     isLoading.value = false
   }

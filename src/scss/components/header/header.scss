@@ -1,7 +1,7 @@
 .header {
   height: 98px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   flex-grow: 1;
   align-items: center;
   border-bottom: 1px solid $color-decor-grey;

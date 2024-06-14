@@ -9,7 +9,6 @@
 
   &__input {
     padding: $spacing-md;
-    border: none;
     box-shadow: none;
     outline: none;
     background-color: $color-bg-grey;
@@ -18,6 +17,7 @@
 
     &::placeholder {
       font-size: 16px;
+      opacity: .6;
     }
   }
 
@@ -29,6 +29,7 @@
   &.is-error {
     .form-group__input {
       border: 1px solid $color-pastel-red;
+      animation: shake-horizontal 0.8s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
     }
   }
 
@@ -40,3 +41,4 @@
     }
   }
 }
+

@@ -1,9 +1,6 @@
 <template>
   <header class="header">
-    <span class="header__welcome">Welcome, Anton! 👋</span>
-
     <div class="header__controls">
-
       <TheSearch />
 
       <div class="dropdown">

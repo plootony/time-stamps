@@ -15,25 +15,25 @@
 
     <template #content>
       <form class="showcase__form">
-        <div class="form-group">
+        <div :class="['form-group', {'is-error' : errors.title.length}]">
           <label class="form-group__label">Заголовок</label>
           <input v-model="title" type="text" class="form-group__input">
           <span v-if="errors.title.length" class="form-group__error">{{ errors.title }}</span>
         </div>
 
-        <div class="form-group">
+        <div :class="['form-group', {'is-error' : errors.desc.length}]">
           <label class="form-group__label">Описание</label>
           <input v-model="desc" type="text" class="form-group__input">
           <span v-if="errors.desc.length" class="form-group__error">{{ errors.desc }}</span>
         </div>
 
-        <div class="form-group">
+        <div :class="['form-group', {'is-error' : errors.link.length}]">
           <label class="form-group__label">Ссылка на ютуб</label>
           <input v-model="courseStore.playerLink" type="text" class="form-group__input">
           <span v-if="errors.link.length" class="form-group__error">{{ errors.link }}</span>
         </div>
 
-        <div class="form-group">
+        <div :class="['form-group', {'is-error' : errors.tags.length}]">
           <label class="form-group__label">Теги</label>
           <input v-model="tags" type="text" class="form-group__input">
           <span v-if="errors.tags.length" class="form-group__error">{{ errors.tags }}</span>
@@ -73,8 +73,8 @@ const isLoading = ref<boolean>(false)
 const title = ref<string>('')
 const desc = ref<string>('')
 const tags = ref<string>('')
-const youtubeUrlPattern = /^https:\/\/www\.youtube\.com\/watch\?v=[\w-]{11}$/;
 const isCompleted = ref<boolean>(false)
+const youtubeUrlPattern = /^https:\/\/www\.youtube\.com\/watch\?v=[\w-]{11}$/;
 const errors = ref<IErrors>({
   title: '',
   link: '',
@@ -144,11 +144,14 @@ const addCourse = async (): Promise<void> => {
     createdAt: new Date(),
     isCompleted: isCompleted.value
   }
+
   try {
     isLoading.value = true
     await setDoc(doc(db, `users/${userId}/courses/${courseData.id}`), courseData)
+
     courseStore.courses.push(courseData)
     console.log('Курс добавлен')
+
   } catch (error) {
     console.log('Ошибка при добавлении курса', error)
   } finally {
