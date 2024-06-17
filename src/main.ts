@@ -3,10 +3,9 @@ import '@/scss/app.scss'
 import {createApp} from 'vue'
 import {createPinia} from 'pinia'
 
-
 import App from '@/App.vue'
 import router from '@/router'
-import Vue3Toastify, { type ToastContainerOptions } from 'vue3-toastify'
+import Vue3Toastify, {type ToastContainerOptions} from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 import VuePlyr from '@skjnldsv/vue-plyr'
 
@@ -22,12 +21,12 @@ app.use(Vue3Toastify, {
 } as ToastContainerOptions);
 
 const firebaseConfig = {
-    apiKey: 'AIzaSyCmYbBbcFNx_basy918tHuJTcaIPo5A3g4',
-    authDomain: 'time-stamp-51983.firebaseapp.com',
-    projectId: 'time-stamp-51983',
-    storageBucket: 'time-stamp-51983.appspot.com',
-    messagingSenderId: '249280867482',
-    appId: '1:249280867482:web:3ab211074c5b57171c8323'
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID
 }
 
 initializeApp(firebaseConfig)
