@@ -1,42 +1,75 @@
 <template>
   <main-layout>
     <template #content>
-      <div id="calendar"></div>
+      <ScheduleXCalendar :calendar-app="calendarApp"/>
+
+      <form @submit.prevent="addEvent">
+        <input v-model="newEvent.title" placeholder="Название события"/>
+        <input v-model="newEvent.start" type="datetime-local" placeholder="Начало"/>
+        <input v-model="newEvent.end" type="datetime-local" placeholder="Конец"/>
+        <button type="submit">Добавить событие</button>
+      </form>
     </template>
+
   </main-layout>
 </template>
 
-<script setup lang='ts'>
-import {onMounted} from 'vue'
+<script setup lang="ts">
+import {reactive} from "vue"
+import {ScheduleXCalendar} from '@schedule-x/vue'
+import {
+  createCalendar,
+  viewDay,
+  viewWeek,
+  viewMonthGrid,
+} from '@schedule-x/calendar'
 import MainLayout from '@/layouts/MainLayout.vue'
-import {createCalendar, viewMonthGrid} from '@schedule-x/calendar'
+import {createEventsServicePlugin} from '@schedule-x/events-service'
 import { createEventModalPlugin } from '@schedule-x/event-modal'
-import '@schedule-x/theme-default/dist/index.css'
 
-onMounted(() => {
-  const calendar = createCalendar({
-    views: [viewMonthGrid],
-    plugins: [createEventModalPlugin()],
-    events: [
-      {
-        id: 1,
-        title: 'Курс по JS',
-        start: '2024-06-21 10:05',
-        end: '2024-06-21 10:35',
-      },
-    ],
-  })
-
-  const calendarEl = document.getElementById('calendar')
-  if (!calendarEl) return
-  calendar.render(calendarEl)
+interface IEvent {
+  id: number
+  title: string
+  start: string
+  end: string
+}
+const eventsServicePlugin = createEventsServicePlugin()
+const calendarApp = createCalendar({
+  views: [viewDay, viewWeek, viewMonthGrid],
+  defaultView: viewMonthGrid.name,
+  locale: 'ru-RU',
+  events: [
+    {
+      id: 1,
+      title: 'Event 1',
+      start: '2024-06-22',
+      end: '2024-06-22',
+    },
+    {
+      id: 2,
+      title: 'Event 2',
+      start: '2023-12-20 12:00',
+      end: '2023-12-20 13:00',
+    },
+  ] as IEvent[],
+  plugins: [eventsServicePlugin, createEventModalPlugin()],
 })
+
+const newEvent = reactive<IEvent>({
+  id: 0,
+  title: '',
+  start: '',
+  end: '',
+})
+
+
+// Тестовое добалвение
+const addEvent = () => {
+  newEvent.id = Date.now()
+  eventsServicePlugin.add({ ...newEvent })
+  newEvent.title = ''
+  newEvent.start = ''
+  newEvent.end = ''
+}
 </script>
 
-<style>
-#calendar {
-  width: 100%;
-  height: 800px;
-  max-height: 90vh;
-}
-</style>
