@@ -33,7 +33,7 @@
 <script setup lang='ts'>
 import {getAuth, signOut} from 'firebase/auth'
 import {useRouter} from 'vue-router'
-import TheIcon from "@/components/TheIcon.vue";
+import TheIcon from '@/components/TheIcon.vue'
 
 const router = useRouter()
 
