@@ -29,6 +29,12 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/pages/PageAuth.vue')
     },
     {
+        path: '/calendar',
+        name: 'calendar',
+        component: () => import('@/pages/PageCalendar.vue'),
+        beforeEnter: isAuth
+    },
+    {
         path: '/course/:id',
         name: 'course',
         component: () => import('@/pages/PageCourse.vue'),
