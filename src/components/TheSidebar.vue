@@ -37,6 +37,12 @@ import TheIcon from "@/components/TheIcon.vue";
 
 const router = useRouter()
 
+interface ILink {
+  id: number,
+  icon: string,
+  url: string
+}
+
 const links = [
   {
     id: 1,
@@ -48,7 +54,7 @@ const links = [
     icon: 'calendar',
     url: 'calendar'
   }
-]
+] as ILink[]
 
 const logout = async (): Promise<void> => {
   await signOut(getAuth())
