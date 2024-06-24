@@ -1,6 +1,6 @@
 <template>
   <svg :class="['icon', `icon--${name}`, modify]">
-    <use :xlink:href="`/src/assets/icons/sprite.svg#${name}`"></use>
+    <use :xlink:href="iconUrl"></use>
   </svg>
 </template>
 
@@ -11,4 +11,5 @@ interface IIcon {
 }
 
 const props = defineProps<IIcon>()
+const iconUrl = 'src/assets/icons/sprite.svg#' + props.name
 </script>
