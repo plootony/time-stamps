@@ -23,7 +23,7 @@
           class="nav__item nav__logout"
       >
         <svg class="icon icon--folder icon--lg">
-          <use xlink:href="@/assets/icons/sprite.svg#arrow-long-left"></use>
+          <use xlink:href="/icons/sprite.svg#arrow-long-left"></use>
         </svg>
       </button>
     </nav>

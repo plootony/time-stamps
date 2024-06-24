@@ -11,5 +11,5 @@ interface IIcon {
 }
 
 const props = defineProps<IIcon>()
-const iconUrl = 'src/assets/icons/sprite.svg#' + props.name
+const iconUrl = '/icons/sprite.svg#' + props.name
 </script>

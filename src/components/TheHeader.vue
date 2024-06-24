@@ -6,7 +6,7 @@
       <div class="dropdown">
         <button class="dropdown__btn">
           <svg class="icon icon--bell icon--lg">
-            <use xlink:href="@/assets/icons/sprite.svg#bell"></use>
+            <use xlink:href="/icons/sprite.svg#bell"></use>
           </svg>
         </button>
       </div>
@@ -14,7 +14,7 @@
       <div class="dropdown">
         <button class="dropdown__btn">
           <svg class="icon icon--settings icon--lg">
-            <use xlink:href="@/assets/icons/sprite.svg#settings"></use>
+            <use xlink:href="/icons/sprite.svg#settings"></use>
           </svg>
         </button>
       </div>
