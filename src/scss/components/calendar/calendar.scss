@@ -1,0 +1,47 @@
+@import '@schedule-x/theme-default/dist/index.css';
+
+.sx-vue-calendar-wrapper {
+  width: 100%;
+  height: 920px;
+}
+
+.sx__calendar {
+  background-color: transparent;
+}
+
+.sx__month-grid-day {
+  background-color: $color-white;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 6px;
+}
+.sx__calendar,
+.sx__month-grid-week,
+.sx__month-grid-day:not(:last-child) {
+  border: none;
+}
+
+.sx__month-grid-day__header {
+  align-items: flex-end;
+}
+
+.sx__month-grid-day__header-day-name {
+  font-size: 18px;
+  color: $color-pastel-purple
+}
+
+.sx__month-grid-day__header-date {
+  margin-top: $spacing-sm;
+  font-size: 18px;
+  color: $color-grey
+}
+
+.sx__month-grid-day__events .sx__event {
+  margin-top: $spacing-sm;
+  padding: 4px;
+}
+
+.sx__month-grid-day__header-date.sx__is-today {
+  width: 32px;
+  height: 32px;
+}

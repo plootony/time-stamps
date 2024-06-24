@@ -47,17 +47,17 @@
   </main-layout>
 </template>
 
-<script setup lang="ts">
+<script setup lang='ts'>
 import {onMounted, ref} from "vue"
-import MainLayout from "@/layouts/MainLayout.vue"
-import ThePlaylist from "@/components/ThePlaylist.vue"
-import TheEditor from "@/components/TheEditor.vue"
-import ThePlayer from "@/components/ThePlayer.vue";
-import ChapterAdd from "@/components/ChapterAdd.vue";
-import {useCourseStore} from "@/stores/course";
-import {doc, getDoc} from "firebase/firestore";
-import {useRoute} from "vue-router";
-import type {ICourse} from "@/interfaces/ICourse";
+import MainLayout from '@/layouts/MainLayout.vue'
+import ThePlaylist from '@/components/ThePlaylist.vue'
+import TheEditor from '@/components/TheEditor.vue'
+import ThePlayer from '@/components/ThePlayer.vue';
+import ChapterAdd from '@/components/ChapterAdd.vue'
+import {useCourseStore} from '@/stores/course'
+import {doc, getDoc} from 'firebase/firestore'
+import {useRoute} from 'vue-router'
+import type {ICourse} from '@/interfaces/ICourse'
 
 const courseStore = useCourseStore()
 const router = useRoute()
