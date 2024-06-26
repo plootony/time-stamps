@@ -3,155 +3,91 @@
     <template #content>
       <ScheduleXCalendar :calendar-app="calendarApp"/>
 
-      <TheModal :modal-show="eventModalShow" @modalClose="closeModal">
-        <template #header> Добавить событие</template>
+      <TheModal
+          :modal-show="eventDialogShow"
+          @modalClose="closeModal"
+      >
+        <template #header>Добавить событие</template>
 
         <template #content>
-          <div class="event-dialog">
-            <form class="event-dialog__form">
-              <div class="form-group">
-                <label class="form-group__label">Заголовок события</label>
-                <input type="text" class="form-group__input">
-              </div>
-
-              <div class="form-group">
-                <label class="form-group__label">Описание</label>
-                <input type="time" class="form-group__input">
-              </div>
-
-              <div class="form-group">
-                <label class="form-group__label">Начало</label>
-                <input type="time" class="form-group__input">
-              </div>
-
-              <div class="form-group">
-                <label class="form-group__label">Конец</label>
-                <input type="time" class="form-group__input">
-              </div>
-
-            </form>
-          </div>
+          <EventDialog/>
         </template>
 
         <template #footer>
           <button class="btn btn--outline" @click="closeModal">Закрыть</button>
-          <button class="btn btn--primary">Сохранить</button>
+          <button @click="eventAdd" class="btn btn--primary">Сохранить</button>
         </template>
       </TheModal>
 
-      <div v-if="eventDetailsShow" class="event-details">
-        <button class="event-details__close" @click="eventDetailsShow = false">x</button>
-        <h3 class="event-details__title">Привет друг, давно мы не виделись!</h3>
-        <p class="event-details__desc">Наверное обиделись, стали чужими вдруг!</p>
-
-        <div class="event-details__controls">
-          <button class="btn btn--danger">Удалить</button>
-
-          <button class="btn btn--primary">Сохранить</button>
-        </div>
-      </div>
+      <EventDetails
+          v-if="eventDetailsShow"
+          @eventDelete="eventDelete"
+          @close="eventDetailsShow = false"
+      />
     </template>
-
   </main-layout>
 </template>
 
 <script setup lang='ts'>
 import {ref} from 'vue'
+import {useCourseStore} from '@/stores/course'
 import {ScheduleXCalendar} from '@schedule-x/vue'
-import {
-  createCalendar,
-  viewDay,
-  viewWeek,
-  viewMonthGrid,
-} from '@schedule-x/calendar'
-import MainLayout from '@/layouts/MainLayout.vue'
 import {createEventsServicePlugin} from '@schedule-x/events-service'
+import {createCalendar, viewMonthGrid} from '@schedule-x/calendar'
+import type {IEvent} from '@/interfaces/IEvent'
+import MainLayout from '@/layouts/MainLayout.vue'
 import TheModal from '@/components/TheModal.vue'
+import EventDetails from '@/components/EventDetails.vue'
+import EventDialog from '@/components/EventDialog.vue'
 
-interface IEvent {
-  id: number
-  title: string
-  start: string
-  end: string
-}
-
-const currentEventId = ref<Number>(0)
+const courseStore = useCourseStore()
 
 const eventsServicePlugin = createEventsServicePlugin()
 const calendarApp = createCalendar({
-  views: [viewDay, viewWeek, viewMonthGrid],
+  views: [viewMonthGrid],
   defaultView: viewMonthGrid.name,
   locale: 'ru-RU',
   callbacks: {
     onEventClick: (event) => {
       eventDetailsShow.value = true
-      currentEventId.value = event.id as IEvent['id']
-      console.log(currentEventId.value)
+      courseStore.currentEventId = event.id as IEvent['id']
+      courseStore.currentEventTitle = event.title
     },
     onClickDate(date) {
-      console.log('onClickDate', date)
-      eventModalShow.value = true
+      courseStore.eventData.start = date
+      courseStore.eventData.end = date
+      eventDialogShow.value = true
+      eventDetailsShow.value = false
     },
   },
   events: [
-    {
-      id: 1,
-      title: 'Event 1',
-      start: '2024-06-22',
-      end: '2024-06-22',
-    },
-    {
-      id: 2,
-      title: 'Event 2',
-      start: '2024-06-22',
-      end: '2024-06-22',
-    },
+    ...courseStore.events
   ] as IEvent[],
   plugins: [eventsServicePlugin],
 })
 
-const eventModalShow = ref<boolean>(false)
+const eventDialogShow = ref<boolean>(false)
 const eventDetailsShow = ref<boolean>(false)
+
+/** Закрытие модального окна */
 const closeModal = (): void => {
-  eventModalShow.value = false
+  eventDialogShow.value = false
 }
+
+/** Удаление ивента */
 const eventDelete = (): void => {
-  calendarApp.events.remove(currentEventId.value as IEvent['id'])
+  calendarApp.events.remove(courseStore.currentEventId as IEvent['id'])
+  eventDetailsShow.value = false
 }
 
+/** Добавление ивента */
+const eventAdd = (): void => {
+  calendarApp.events.add({
+    id: courseStore.eventData.id,
+    title: courseStore.eventData.title,
+    start: courseStore.eventData.start,
+    end: courseStore.eventData.end,
+  })
+  eventDialogShow.value = false
+}
 </script>
-
-<style lang="scss">
-.event-dialog__form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.event-details {
-  padding: 16px;
-  gap: 16px;
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
-  width: 600px;
-  height: 150px;
-  background: rgba(121, 93, 187, 0.37);
-  color: white;
-
-  &__close {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    color: white;
-  }
-
-  &__controls {
-    display: flex;
-    gap: 8px;
-  }
-}
-</style>
