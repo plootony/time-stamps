@@ -4,7 +4,7 @@
       <TheIcon name="close"/>
     </button>
 
-    <h3 class="event-details__title">{{ courseStore.currentEventTitle }}</h3>
+    <h3 class="event-details__title">{{ eventsStore.currentEventTitle }}</h3>
 
     <div class="event-details__controls">
       <button @click="eventDelete" class="btn btn--danger">Удалить</button>
@@ -14,9 +14,9 @@
 
 <script setup lang='ts'>
 import TheIcon from '@/components/TheIcon.vue'
-import {useCourseStore} from '@/stores/course'
+import {useEventsStore} from '@/stores/events'
 
-const courseStore = useCourseStore()
+const eventsStore = useEventsStore()
 
 const emit = defineEmits(['close', 'eventDelete'])
 
