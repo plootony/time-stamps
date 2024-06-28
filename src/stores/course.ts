@@ -1,9 +1,9 @@
 import {defineStore} from 'pinia'
-import {getFirestore} from "firebase/firestore"
-import {getAuth} from "firebase/auth"
+import {getFirestore} from 'firebase/firestore'
+import {getAuth} from 'firebase/auth'
 import {type Ref, ref} from 'vue'
-import type {ICourse} from "@/interfaces/ICourse"
-import type {IChapter} from "@/interfaces/IChapter"
+import type {ICourse} from '@/interfaces/ICourse'
+import type {IChapter} from '@/interfaces/IChapter'
 
 export const useCourseStore = defineStore('course', () => {
     const db = getFirestore()

@@ -1,0 +1,30 @@
+.event-details {
+  padding: 16px;
+  gap: 16px;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  width: 600px;
+  background: rgba(121, 93, 187, 0.37);
+  color: white;
+
+  &__close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    color: white;
+    cursor: pointer;
+
+    .icon {
+      stroke: $color-white
+    }
+  }
+
+  &__controls {
+    display: flex;
+    gap: 8px;
+  }
+}

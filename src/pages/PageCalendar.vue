@@ -1,59 +1,178 @@
 <template>
   <main-layout>
     <template #content>
-      <ScheduleXCalendar :calendar-app="calendarApp"/>
-    </template>
+      <section class="calendar">
+        <section class="events">
+          <h2 class="events__title">Курсы на сегодня</h2>
+          <span class="events__subtitle">27.06.2024</span>
 
+          <EventToday/>
+        </section>
+
+        <section class="schedule">
+          <ScheduleXCalendar
+              :class="{'is-loading': isLoading}"
+              :calendar-app="calendarApp"
+          />
+
+          <EventDialog
+              :modalShow="eventDialogShow"
+              @modal-close="eventDialogShow = false"
+              @event-add="eventAdd"
+          />
+
+          <EventDetails
+              v-if="eventDetailsShow"
+              :current-event="currentEvent"
+              @eventDelete="eventDelete"
+              @close="eventDetailsShow = false"
+          />
+        </section>
+      </section>
+    </template>
   </main-layout>
 </template>
 
 <script setup lang='ts'>
-import {reactive} from 'vue'
+import {onMounted, reactive, ref} from 'vue'
+import {useEventsStore} from '@/stores/events'
 import {ScheduleXCalendar} from '@schedule-x/vue'
-import {
-  createCalendar,
-  viewDay,
-  viewWeek,
-  viewMonthGrid,
-} from '@schedule-x/calendar'
-import MainLayout from '@/layouts/MainLayout.vue'
 import {createEventsServicePlugin} from '@schedule-x/events-service'
-import {createEventModalPlugin} from '@schedule-x/event-modal'
+import {createCalendar, viewMonthGrid} from '@schedule-x/calendar'
+import {useCourseStore} from '@/stores/course'
+import {collection, deleteDoc, doc, getDocs, query, setDoc} from 'firebase/firestore'
+import MainLayout from '@/layouts/MainLayout.vue'
+import EventDetails from '@/components/EventDetails.vue'
+import EventToday from '@/components/EventToday.vue'
+import EventDialog from '@/components/EventDialog.vue'
+import type {IEvent} from '@/interfaces/IEvent'
 
-interface IEvent {
-  id: number
-  title: string
-  start: string
-  end: string
-}
+const eventsStore = useEventsStore()
 
-const eventsServicePlugin = createEventsServicePlugin()
-const calendarApp = createCalendar({
-  views: [viewDay, viewWeek, viewMonthGrid],
-  defaultView: viewMonthGrid.name,
-  locale: 'ru-RU',
-  events: [
-    {
-      id: 1,
-      title: 'Event 1',
-      start: '2024-06-22',
-      end: '2024-06-22',
-    },
-    {
-      id: 2,
-      title: 'Event 2',
-      start: '2023-12-20 12:00',
-      end: '2023-12-20 13:00',
-    },
-  ] as IEvent[],
-  plugins: [eventsServicePlugin, createEventModalPlugin()],
+// TODO: Разбить стор на модули
+const courseStore = useCourseStore()
+const db = courseStore.db
+const userId = courseStore.userId
 
-})
-const newEvent = reactive<IEvent>({
-  id: Date.now(),
+const isLoading = ref<boolean>(false)
+const eventDetailsShow = ref<boolean>(false)
+const eventDialogShow = ref<boolean>(false)
+
+// TODO: Подумать над этим еще)
+const currentEvent = reactive<IEvent>({
+  id: '',
   title: '',
   start: '',
   end: '',
 })
-</script>
 
+const eventsServicePlugin = createEventsServicePlugin()
+const calendarApp = createCalendar({
+  views: [viewMonthGrid],
+  defaultView: viewMonthGrid.name,
+  locale: 'ru-RU',
+  callbacks: {
+    onEventClick: (event): void => {
+      currentEvent.id = event.id as string
+      currentEvent.title = event.title as string
+      currentEvent.start = event.start as string
+      currentEvent.end = event.end as string
+
+      eventDetailsShow.value = true
+    },
+
+    onClickDate(date): void {
+      eventDialogShow.value = true
+    },
+  },
+  events: [
+    ...eventsStore.events
+  ] as IEvent[],
+  plugins: [eventsServicePlugin],
+})
+
+/** Удаление ивента */
+const eventDelete = async (): Promise<void> => {
+  try {
+    isLoading.value = true
+
+    console.log('Пытаюсь удалить ивент')
+    await deleteDoc(doc(db, `users/${userId}/events/`, currentEvent.id))
+
+    const index: number = eventsStore.events.findIndex(event => event.id === currentEvent.id)
+    if (index !== -1) {
+      eventsStore.events.splice(index, 1)
+      console.log('Выбранный ивент удален')
+    }
+
+    calendarApp.events.remove(currentEvent.id)
+
+    eventDetailsShow.value = false
+
+  } catch (error) {
+    console.log('Ошибка при удалении ивента', error)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+/** Добавление ивента */
+const eventAdd = async (eventData: IEvent): Promise<void> => {
+  console.log(eventData)
+
+  if (!userId) return
+
+  isLoading.value = true
+
+  try {
+    await setDoc(doc(db, `users/${userId}/events/${eventData.id}`), eventData)
+    calendarApp.events.add(eventData)
+    eventsStore.events.push(eventData)
+
+    eventDialogShow.value = false
+  } catch (error) {
+    console.log('Не удалось добавить ивент', error)
+
+  } finally {
+    isLoading.value = false
+  }
+}
+
+/** Получение списка ивентов */
+const getAllEvents = async (): Promise<void> => {
+  if (!userId) return
+
+  try {
+    isLoading.value = true
+
+    console.log('Пытаюсь получить список ивентов')
+    const docRef = query(
+        collection(db, `users/${userId}/events/`)
+    )
+
+    const docSnap = await getDocs(docRef)
+
+    if (docSnap.empty) {
+      console.log('Список ивентов пуст')
+      return
+    }
+
+    console.log('Ощищаю старый список ивентов')
+    eventsStore.events = []
+
+    docSnap.docs.map(doc => {
+      console.log('Итерируюсь по списку ивентов', doc.data())
+      eventsStore.events.push(doc.data() as IEvent)
+    })
+
+    calendarApp.events.set(eventsStore.events)
+
+  } catch (error) {
+    console.log('Ошибка при получении ивентов', error)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+onMounted(getAllEvents)
+</script>

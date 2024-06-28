@@ -27,6 +27,11 @@
     }
   }
 
+  &--danger {
+    background: $color-pastel-red;
+    color: $color-white;
+  }
+
   &.is-loading {
     pointer-events: none;
     user-select: none;
