@@ -12,21 +12,11 @@
         <section class="schedule">
           <ScheduleXCalendar :calendar-app="calendarApp"/>
 
-          <TheModal
-              :modal-show="eventDialogShow"
-              @modalClose="closeModal"
-          >
-            <template #header>Добавить событие</template>
-
-            <template #content>
-              <EventDialog/>
-            </template>
-
-            <template #footer>
-              <button class="btn btn--outline" @click="closeModal">Закрыть</button>
-              <button @click="eventAdd" class="btn btn--primary">Сохранить</button>
-            </template>
-          </TheModal>
+          <EventDialog
+              :modalShow="eventDialogShow"
+              @modal-close="eventDialogShow = false"
+              @event-add="eventAdd"
+          />
 
           <EventDetails
               v-if="eventDetailsShow"
@@ -40,19 +30,30 @@
 </template>
 
 <script setup lang='ts'>
-import {ref} from 'vue'
+import {onMounted, ref} from 'vue'
 import {useEventsStore} from '@/stores/events'
 import {ScheduleXCalendar} from '@schedule-x/vue'
 import {createEventsServicePlugin} from '@schedule-x/events-service'
 import {createCalendar, viewMonthGrid} from '@schedule-x/calendar'
 import MainLayout from '@/layouts/MainLayout.vue'
-import TheModal from '@/components/TheModal.vue'
 import EventDetails from '@/components/EventDetails.vue'
-import EventDialog from '@/components/EventDialog.vue'
 import EventToday from '@/components/EventToday.vue'
+import EventDialog from '@/components/EventDialog.vue'
 import type {IEvent} from '@/interfaces/IEvent'
+import {useCourseStore} from '@/stores/course'
+import {collection, doc, getDocs, query, setDoc} from 'firebase/firestore'
 
 const eventsStore = useEventsStore()
+
+// TODO: Разбить стор на модули
+const courseStore = useCourseStore()
+const db = courseStore.db
+const userId = courseStore.userId
+
+const isLoading = ref<boolean>(false)
+const eventDetailsShow = ref<boolean>(false)
+const eventDialogShow = ref<boolean>(false)
+
 const eventsServicePlugin = createEventsServicePlugin()
 const calendarApp = createCalendar({
   views: [viewMonthGrid],
@@ -61,15 +62,9 @@ const calendarApp = createCalendar({
   callbacks: {
     onEventClick: (event) => {
       eventDetailsShow.value = true
-      eventsStore.currentEventId = event.id as IEvent['id']
-      eventsStore.currentEventTitle = event.title as IEvent['title']
     },
     onClickDate(date) {
-      eventsStore.eventData.start = date as IEvent['start']
-      eventsStore.eventData.end = date as IEvent['end']
-
       eventDialogShow.value = true
-      eventDetailsShow.value = false
     },
   },
   events: [
@@ -78,27 +73,68 @@ const calendarApp = createCalendar({
   plugins: [eventsServicePlugin],
 })
 
-const eventDialogShow = ref<boolean>(false)
-const eventDetailsShow = ref<boolean>(false)
-
-/** Закрытие модального окна */
-const closeModal = (): void => {
-  eventDialogShow.value = false
-}
-
 /** Удаление ивента */
 const eventDelete = (): void => {
-  calendarApp.events.remove(eventsStore.currentEventId as IEvent['id'])
-  eventsStore.events = eventsStore.events.filter(event => event.id !== eventsStore.currentEventId)
-
   eventDetailsShow.value = false
 }
 
 /** Добавление ивента */
-const eventAdd = (): void => {
-  calendarApp.events.add(eventsStore.eventData)
-  eventsStore.events.push(eventsStore.eventData)
+const eventAdd = async (eventData: IEvent): Promise<void> => {
+  console.log(eventData)
 
-  eventDialogShow.value = false
+  if (!userId) return
+
+  isLoading.value = true
+
+  try {
+    await setDoc(doc(db, `users/${userId}/events/${eventData.id}`), eventData)
+    calendarApp.events.add(eventData)
+    eventsStore.events.push(eventData)
+
+    eventDialogShow.value = false
+  } catch (error) {
+    console.log('Не удалось добавить ивент', error)
+
+  } finally {
+    isLoading.value = false
+  }
 }
+
+/** Получение списка ивентов */
+const getAllEvents = async (): Promise<void> => {
+  if (!userId) return
+
+  try {
+    isLoading.value = true
+
+    console.log('Пытаюсь получить список ивентов')
+    const docRef = query(
+        collection(db, `users/${userId}/events/`)
+    )
+
+    const docSnap = await getDocs(docRef)
+
+    if (docSnap.empty) {
+      console.log('Список ивентов пуст')
+      return
+    }
+
+    console.log('Ощищаю старый список ивентов')
+    eventsStore.events = []
+
+    docSnap.docs.map(doc => {
+      console.log('Итерируюсь по списку ивентов', doc.data())
+      eventsStore.events.push(doc.data() as IEvent)
+    })
+
+    calendarApp.events.set(eventsStore.events)
+
+  } catch (error) {
+    console.log('Ошибка при получении ивентов', error)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+onMounted(getAllEvents)
 </script>
