@@ -1,12 +1,12 @@
 <template>
   <div class="events-list">
-    <ul v-if="todayEvents.length" class="event-list__body">
+    <ul v-if="todayEvents.length" class="events-list__body">
       <li
           v-for="event in todayEvents"
           :key="event.id"
-          class="event-list__item"
+          class="events-list__item"
       >
-        <span class="event-list__item-title">{{ event.title }}</span>
+        <span class="events-list__item-title">{{ event.title }}</span>
       </li>
     </ul>
 

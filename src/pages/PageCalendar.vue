@@ -10,7 +10,10 @@
         </section>
 
         <section class="schedule">
-          <ScheduleXCalendar :calendar-app="calendarApp"/>
+          <ScheduleXCalendar
+              :class="{'is-loading': isLoading}"
+              :calendar-app="calendarApp"
+          />
 
           <EventDialog
               :modalShow="eventDialogShow"
@@ -20,6 +23,7 @@
 
           <EventDetails
               v-if="eventDetailsShow"
+              :current-event="currentEvent"
               @eventDelete="eventDelete"
               @close="eventDetailsShow = false"
           />
@@ -30,18 +34,18 @@
 </template>
 
 <script setup lang='ts'>
-import {onMounted, ref} from 'vue'
+import {onMounted, reactive, ref} from 'vue'
 import {useEventsStore} from '@/stores/events'
 import {ScheduleXCalendar} from '@schedule-x/vue'
 import {createEventsServicePlugin} from '@schedule-x/events-service'
 import {createCalendar, viewMonthGrid} from '@schedule-x/calendar'
+import {useCourseStore} from '@/stores/course'
+import {collection, deleteDoc, doc, getDocs, query, setDoc} from 'firebase/firestore'
 import MainLayout from '@/layouts/MainLayout.vue'
 import EventDetails from '@/components/EventDetails.vue'
 import EventToday from '@/components/EventToday.vue'
 import EventDialog from '@/components/EventDialog.vue'
 import type {IEvent} from '@/interfaces/IEvent'
-import {useCourseStore} from '@/stores/course'
-import {collection, doc, getDocs, query, setDoc} from 'firebase/firestore'
 
 const eventsStore = useEventsStore()
 
@@ -54,16 +58,30 @@ const isLoading = ref<boolean>(false)
 const eventDetailsShow = ref<boolean>(false)
 const eventDialogShow = ref<boolean>(false)
 
+// TODO: Подумать над этим еще)
+const currentEvent = reactive<IEvent>({
+  id: '',
+  title: '',
+  start: '',
+  end: '',
+})
+
 const eventsServicePlugin = createEventsServicePlugin()
 const calendarApp = createCalendar({
   views: [viewMonthGrid],
   defaultView: viewMonthGrid.name,
   locale: 'ru-RU',
   callbacks: {
-    onEventClick: (event) => {
+    onEventClick: (event): void => {
+      currentEvent.id = event.id as string
+      currentEvent.title = event.title as string
+      currentEvent.start = event.start as string
+      currentEvent.end = event.end as string
+
       eventDetailsShow.value = true
     },
-    onClickDate(date) {
+
+    onClickDate(date): void {
       eventDialogShow.value = true
     },
   },
@@ -74,8 +92,28 @@ const calendarApp = createCalendar({
 })
 
 /** Удаление ивента */
-const eventDelete = (): void => {
-  eventDetailsShow.value = false
+const eventDelete = async (): Promise<void> => {
+  try {
+    isLoading.value = true
+
+    console.log('Пытаюсь удалить ивент')
+    await deleteDoc(doc(db, `users/${userId}/events/`, currentEvent.id))
+
+    const index: number = eventsStore.events.findIndex(event => event.id === currentEvent.id)
+    if (index !== -1) {
+      eventsStore.events.splice(index, 1)
+      console.log('Выбранный ивент удален')
+    }
+
+    calendarApp.events.remove(currentEvent.id)
+
+    eventDetailsShow.value = false
+
+  } catch (error) {
+    console.log('Ошибка при удалении ивента', error)
+  } finally {
+    isLoading.value = false
+  }
 }
 
 /** Добавление ивента */

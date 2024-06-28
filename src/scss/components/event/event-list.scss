@@ -1,4 +1,8 @@
-.event-list {
+.events-list {
+  margin-top: $spacing-sm;
+  display: flex;
+  flex-direction: column;
+
   &__body {
     margin-top: $spacing-sm;
     height: 100%;
@@ -7,8 +11,10 @@
     gap: $spacing-md;
   }
 
+  &__empty,
   &__item {
     padding: $spacing-md;
+    flex-grow: 1;
     background-color: $color-white;
     font-size: 15px;
     border-radius: 6px;
@@ -18,5 +24,9 @@
     &:hover {
       color: $color-pastel-purple;
     }
+  }
+
+  &__empty {
+    color: $color-pastel-purple;
   }
 }
