@@ -6,7 +6,7 @@
     <img
         class="card__image"
         :src="course.image"
-        width="200" height="170"
+        width="300" height="170"
         :alt="course.title"
     >
 

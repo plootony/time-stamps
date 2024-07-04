@@ -1,5 +1,5 @@
 <template>
-  <the-modal :modal-show="isShow">
+  <the-modal :modal-show="isShow" @modal-close="modalClose">
     <template #header>
       <h2 class="modal__title">Добавить новую главу</h2>
     </template>

@@ -10,8 +10,9 @@
 
 
   &__image {
-    width: 200px;
-    height: 170px;
+    width: 250px;
+    height: 140px;
+    flex-shrink: 0;
     object-fit: cover;
     border-radius: 16px;
   }

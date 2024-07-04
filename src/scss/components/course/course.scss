@@ -5,12 +5,12 @@
   &__heading {
     margin: $spacing-md 0;
     display: flex;
-    align-items: center;
     justify-content: space-between;
     gap: $spacing-md;
   }
 
   &__title-wrapper {
+    flex: 1;
     display: flex;
     align-items: center;
     gap: $spacing-md;

@@ -21,6 +21,11 @@
     }
   }
 
+  &__textarea {
+    resize: none;
+    font-family: inherit;
+  }
+
   &__error {
     font-size: 14px;
     color: $color-pastel-red;
