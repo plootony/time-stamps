@@ -9,7 +9,17 @@
         <div class="form-group">
           <label class="form-group__label">Заголовок</label>
 
-          <input v-model="title" type="text" class="form-group__input">
+          <input
+              v-model="title"
+              @input="validateInput"
+              type="text"
+              class="form-group__input"
+          >
+
+          <span
+              v-if="error"
+              class="form-group__error"
+          >{{ error }}</span>
         </div>
       </form>
     </template>
@@ -49,8 +59,19 @@ const courseId = router.params.id
 const isShow = ref<boolean>(false)
 const isLoading = ref<boolean>(false)
 const title = ref<string>('')
+const error = ref<string>('')
 
 const emit = defineEmits(['modalClose'])
+
+
+const validateInput = () => {
+  const regex = /^[a-zA-Zа-яА-ЯёЁ0-9 .,:-]*$/
+  if (!regex.test(title.value)) {
+    error.value = 'Специальные символы запрещены!'
+  } else {
+    error.value = ''
+  }
+};
 
 // Закрытие модального окна
 const modalClose = () => {

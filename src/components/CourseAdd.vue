@@ -75,9 +75,9 @@
           >
 
           <span
-              v-if="errors.tags.length"
-              class="form-group__error"
-          >{{ errors.tags }}</span>
+            v-if="errors.tags.length"
+            class="form-group__error"
+        >{{ errors.tags }}</span>
         </div>
       </form>
     </template>
