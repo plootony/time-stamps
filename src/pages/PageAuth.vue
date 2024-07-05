@@ -101,6 +101,11 @@ const userEmail = ref<string>('')
 const password = ref<string>('')
 const passwordConfirm = ref<string>('')
 
+const errors = ref<IErrors>({
+  userEmail: false,
+  password: false
+})
+
 interface IErrors {
   userEmail: boolean
   password: boolean
@@ -126,17 +131,15 @@ const rules = computed(() => ({
 
 const v = useVuelidate(rules, {userEmail, password, passwordConfirm})
 
-const errors = ref<IErrors>({
-  userEmail: false,
-  password: false
-})
-
+/** Переключение форм со сбросом ошибок валидатора*/
 const toggleAuth = (): void => {
   isAuth.value = !isAuth.value
+
+  v.value.$reset()
   clearForm()
 }
 
-/** Очищаем инптуы*/
+/** Очищаем форму*/
 const clearForm = (): void => {
   userEmail.value = ''
   password.value = ''
