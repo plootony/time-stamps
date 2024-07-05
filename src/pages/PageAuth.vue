@@ -101,11 +101,6 @@ const userEmail = ref<string>('')
 const password = ref<string>('')
 const passwordConfirm = ref<string>('')
 
-const errors = ref<IErrors>({
-  userEmail: false,
-  password: false
-})
-
 interface IErrors {
   userEmail: boolean
   password: boolean
@@ -162,11 +157,9 @@ function authErrors(error: FirebaseError) {
     switch (error.code) {
       case 'auth/email-already-in-use':
         toast.error('Такой email уже используется')
-        errors.value.userEmail = true
         break
       case 'auth/invalid-credential':
         toast.error('Неверный логин или пароль')
-        errors.value.userEmail = true
         break
       default:
         toast.error('Произошла непредвиденная ошибка: ' + error.message)
@@ -184,12 +177,6 @@ const signUp = async (): Promise<void> => {
   if (v.value.$error) return
 
   isLoading.value = true
-
-  if (password.value !== passwordConfirm.value) {
-    toast.error('Пароли не совпадают')
-    isLoading.value = false
-    return
-  }
 
   try {
     await createUserWithEmailAndPassword(getAuth(), userEmail.value, password.value)
