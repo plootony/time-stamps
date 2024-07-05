@@ -120,7 +120,7 @@ const rules = computed(() => ({
     required: helpers.withMessage('Поле обязательно для заполнения', required),
     sameAsPassword: helpers.withMessage(`Пароли не совпадают`, sameAs(password.value)),
     minLength: helpers.withMessage(`Минимальная длина: 8 символа`, minLength(8)),
-    maxLength: helpers.withMessage(`Максимальная длина: 16 символа`, minLength(16))
+    maxLength: helpers.withMessage(`Максимальная длина: 16 символа`, maxLength(16))
   }
 }))
 
@@ -205,6 +205,8 @@ const signUp = async (): Promise<void> => {
 
 /** Авторизация*/
 const signIn = async (): Promise<void> => {
+  passwordConfirm.value = password.value
+
   v.value.$touch()
 
   if (v.value.$error) return
