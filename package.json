@@ -29,6 +29,8 @@
     "@schedule-x/vue": "^1.43.5",
     "@skjnldsv/vue-plyr": "^7.5.0",
     "@types/quill": "^2.0.14",
+    "@vuelidate/core": "^2.0.3",
+    "@vuelidate/validators": "^2.0.4",
     "@vueup/vue-quill": "^1.2.0",
     "firebase": "^10.11.1",
     "highlight.js": "^11.9.0",

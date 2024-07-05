@@ -14,6 +14,7 @@
     background-color: $color-bg-grey;
     border: 1px solid $color-accent-grey;
     font-size: 16px;
+    border-radius: 4px;
 
     &::placeholder {
       font-size: 16px;
@@ -26,14 +27,23 @@
     font-family: inherit;
   }
 
+  &__errors {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm
+  }
+
   &__error {
+    padding: 2px 4px;
+    background-color: lighten($color-pastel-red, 15);
     font-size: 14px;
-    color: $color-pastel-red;
+    color: $color-white;
+    border-radius: 4px;
   }
 
   &.is-error {
     .form-group__input {
-      border: 1px solid $color-pastel-red;
+      border: 1px solid lighten($color-pastel-red, 15);
       animation: shake-horizontal 0.8s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
     }
   }
