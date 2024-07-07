@@ -8,7 +8,6 @@
   cursor: pointer;
   position: relative;
 
-
   &__image {
     width: 250px;
     height: 140px;
@@ -21,17 +20,21 @@
     margin-left: $spacing-lg;
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    width: 100%;
+    word-break: break-word;
   }
 
   &__title {
     font-size: 32px;
     font-weight: 700;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
   }
 
   &__subtitle {
     margin-top: $spacing-md;
-    width: 85%;
     font-size: 18px;
     color: $color-grey;
     line-height: 1.4;

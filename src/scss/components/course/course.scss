@@ -5,6 +5,7 @@
   &__heading {
     margin: $spacing-md 0;
     display: flex;
+    align-items: flex-start;
     justify-content: space-between;
     gap: $spacing-md;
   }
@@ -12,12 +13,17 @@
   &__title-wrapper {
     flex: 1;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: $spacing-md;
   }
 
   &__title {
     font-size: 26px;
+    word-break: break-word;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
   }
 
   &__body {

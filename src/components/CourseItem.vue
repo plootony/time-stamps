@@ -1,13 +1,13 @@
 <template>
   <div
-      class="card"
-      @click.stop="router.push(`/course/${course.id}`)"
+    class="card"
+    @click.stop="router.push(`/course/${course.id}`)"
   >
     <img
-        class="card__image"
-        :src="course.image"
-        width="300" height="170"
-        :alt="course.title"
+      class="card__image"
+      :src="course.image"
+      width="300" height="170"
+      :alt="course.title"
     >
 
     <div class="card__body">
@@ -15,22 +15,22 @@
 
       <p class="card__subtitle">{{ course.desc }}</p>
 
-      <div class="tags">
+      <div :class="['tags', {'is-collapsed' : tagCollapsed }]">
         <span
-            v-for="tag in course.tags"
-            :key="tag"
-            class="tag"
+          v-for="tag in course.tags"
+          :key="tag"
+          class="tag"
         >{{ tag }}
         </span>
       </div>
     </div>
 
     <the-dropdown
-        @click.stop
-        modify="card__dropdown"
+      @click.stop
+      modify="card__dropdown"
     >
       <template #button-content>
-        <TheIcon name="menu-dots" modify="icon--lg"/>
+        <TheIcon name="menu-dots" modify="icon--lg" />
       </template>
 
       <template #content>
@@ -49,10 +49,16 @@ import {useRouter} from 'vue-router'
 import type {ICourse} from '@/interfaces/ICourse'
 import TheDropdown from '@/components/TheDropdown.vue'
 import TheIcon from '@/components/TheIcon.vue'
+import {computed, ref} from 'vue'
 
 const router = useRouter()
-const props = defineProps<{ course: ICourse }>()
+const props = defineProps<{course: ICourse}>()
 const emit = defineEmits(['deleteCourse'])
+const tagCollapsed = ref<boolean>(true)
+
+computed(() => {
+  if (course.tags.length > 10) tagCollapsed.value = true
+})
 
 /** Эмитим удаление курса */
 const deleteCourse = (): void => {

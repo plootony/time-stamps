@@ -4,9 +4,10 @@
   <div v-show="courseStore.chapters.length" class="editor">
     <!--  TODO: Привести верстку в порядок -->
     <div
-        style="width: 20%;
+      style="width: 20%;
         display: flex;
         flex-direction: column;
+        flex-shrink: 0;
         gap: 16px;"
     >
       <div class="editor__toolbar" id="toolbar">
@@ -71,21 +72,21 @@
       </div>
 
       <button
-          class="btn btn--primary"
-          @click="saveChapter"
+        class="btn btn--primary"
+        @click="saveChapter"
       >Сохранить главу
       </button>
     </div>
 
     <div
-        v-show="courseStore.chapters.length"
-        style="width: 80%;"
+      v-show="courseStore.chapters.length"
+      style="width: 80%;"
     >
       <QuillEditor
-          :options="editorOptions"
-          @ready="ready"
-          ref="editorRef"
-          @text-change="highlightCode"
+        :options="editorOptions"
+        @ready="ready"
+        ref="editorRef"
+        @text-change="highlightCode"
       />
     </div>
   </div>
@@ -112,9 +113,9 @@ const editorRef = ref<InstanceType<typeof QuillEditor> | null>(null)
 const isReady = ref<boolean>(false)
 const editorOptions: QuillOptionsStatic = {
   modules: {
-    toolbar: '#toolbar',
+    toolbar: '#toolbar'
   },
-  placeholder: 'Начните свою историю здесь...',
+  placeholder: 'Начните свою историю здесь...'
 }
 
 /** Проверка загрузки эдитора */
@@ -152,9 +153,9 @@ const setChapter = (): void => {
 
 /** Подсветка кода */
 const highlightCode = (): void => {
-  const elements = document.querySelectorAll('.ql-syntax');
+  const elements = document.querySelectorAll('.ql-syntax')
   elements.forEach((block) => {
-    hljs.highlightBlock(block as HTMLElement);
+    hljs.highlightBlock(block as HTMLElement)
   })
 }
 

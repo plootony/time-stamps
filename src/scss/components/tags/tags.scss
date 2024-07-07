@@ -1,6 +1,7 @@
 .tags {
   margin-top: $spacing-md;
   display: flex;
+  flex-wrap: wrap;
   gap: $spacing-sm;
 }
 
@@ -8,4 +9,16 @@
   padding: $spacing-sm;
   background-color: $color-decor-grey;
   border-radius: 4px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.is-collapsed {
+  height: 80px;
+  overflow: hidden;
+  padding: 5px;
+  min-width: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
