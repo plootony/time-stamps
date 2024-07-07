@@ -15,7 +15,7 @@
 
       <p class="card__subtitle">{{ course.desc }}</p>
 
-      <div :class="['tags', {'is-collapsed' : tagCollapsed }]">
+      <div :class="['tags', {'is-collapsed' : course.tags.length > 10 }]">
         <span
           v-for="tag in course.tags"
           :key="tag"
@@ -49,16 +49,10 @@ import {useRouter} from 'vue-router'
 import type {ICourse} from '@/interfaces/ICourse'
 import TheDropdown from '@/components/TheDropdown.vue'
 import TheIcon from '@/components/TheIcon.vue'
-import {computed, ref} from 'vue'
 
 const router = useRouter()
 const props = defineProps<{course: ICourse}>()
 const emit = defineEmits(['deleteCourse'])
-const tagCollapsed = ref<boolean>(true)
-
-computed(() => {
-  if (course.tags.length > 10) tagCollapsed.value = true
-})
 
 /** Эмитим удаление курса */
 const deleteCourse = (): void => {
