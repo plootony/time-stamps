@@ -1,6 +1,10 @@
 <template>
   <Teleport to="body">
-    <div v-if="modalShow" class="modal">
+    <div
+      v-if="modalShow"
+      class="modal"
+    >
+      <div @click.stop="modalClose" class="modal__overlay"></div>
       <div class="modal__body">
         <div class="modal__header">
           <h2 class="modal__title">
@@ -8,7 +12,7 @@
           </h2>
 
           <button class="modal__close" @click="modalClose">
-            <TheIcon name="close"/>
+            <TheIcon name="close" />
           </button>
         </div>
 

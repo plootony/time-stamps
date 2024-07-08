@@ -8,7 +8,7 @@
     </template>
 
     <template #content>
-      <form class="playlist__form">
+      <form class="playlist__form" @submit.prevent>
         <div :class="['form-group', {'is-error' : v.title.$errors.length}]">
           <label class="form-group__label">Заголовок</label>
 
