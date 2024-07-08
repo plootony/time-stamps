@@ -6,26 +6,26 @@
           <h2 class="events__title">Курсы на сегодня</h2>
           <span class="events__subtitle">27.06.2024</span>
 
-          <EventToday/>
+          <EventToday />
         </section>
 
         <section class="schedule">
           <ScheduleXCalendar
-              :class="{'is-loading': isLoading}"
-              :calendar-app="calendarApp"
+            :class="{'is-loading': isLoading}"
+            :calendar-app="calendarApp"
           />
 
           <EventDialog
-              :modalShow="eventDialogShow"
-              @modal-close="eventDialogShow = false"
-              @event-add="eventAdd"
+            :modalShow="eventDialogShow"
+            @modal-close="eventDialogShow = false"
+            @event-add="eventAdd"
           />
 
           <EventDetails
-              v-if="eventDetailsShow"
-              :current-event="currentEvent"
-              @eventDelete="eventDelete"
-              @close="eventDetailsShow = false"
+            v-if="eventDetailsShow"
+            :current-event="currentEvent"
+            @eventDelete="eventDelete"
+            @close="eventDetailsShow = false"
           />
         </section>
       </section>
@@ -46,6 +46,7 @@ import EventDetails from '@/components/EventDetails.vue'
 import EventToday from '@/components/EventToday.vue'
 import EventDialog from '@/components/EventDialog.vue'
 import type {IEvent} from '@/interfaces/IEvent'
+import SmartSelect from '@/components/SmartSelect.vue'
 
 const eventsStore = useEventsStore()
 
@@ -63,7 +64,7 @@ const currentEvent = reactive<IEvent>({
   id: '',
   title: '',
   start: '',
-  end: '',
+  end: ''
 })
 
 const eventsServicePlugin = createEventsServicePlugin()
@@ -81,14 +82,14 @@ const calendarApp = createCalendar({
       eventDetailsShow.value = true
     },
 
-    onClickDate(date): void {
+    onClickDate(): void {
       eventDialogShow.value = true
-    },
+    }
   },
   events: [
     ...eventsStore.events
   ] as IEvent[],
-  plugins: [eventsServicePlugin],
+  plugins: [eventsServicePlugin]
 })
 
 /** Удаление ивента */
@@ -147,7 +148,7 @@ const getAllEvents = async (): Promise<void> => {
 
     console.log('Пытаюсь получить список ивентов')
     const docRef = query(
-        collection(db, `users/${userId}/events/`)
+      collection(db, `users/${userId}/events/`)
     )
 
     const docSnap = await getDocs(docRef)

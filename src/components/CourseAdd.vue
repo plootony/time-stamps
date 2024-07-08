@@ -17,7 +17,7 @@
       <form class="showcase__form">
 
         <div :class="['form-group', {'is-error' : v.link.$errors.length}]">
-          <label class="form-group__label">Ссылка на ютуб</label>
+          <label class="form-group__label">Ссылка на ютуб видео</label>
           <input
             v-model="v.link.$model"
             class="form-group__input"
@@ -89,7 +89,7 @@
             v-model="v.tags.$model"
             class="form-group__input"
             type="text"
-            placeholder="Языки, Английский"
+            placeholder="Перечислите через запятую: Языки, Английский, English"
           >
 
           <div

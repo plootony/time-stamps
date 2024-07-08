@@ -1,0 +1,35 @@
+.smart-select {
+  position: relative;
+
+  &__result {
+    max-height: 202px;
+    width: 100%;
+    overflow-x: auto;
+    position: absolute;
+    top: 85px;
+    left: 0;
+    font-size: 14px;
+    background-color: $color-bg-grey;
+    border: 1px solid $color-accent-grey;
+    box-shadow: $box-shadow;
+  }
+
+  &__result-item {
+    padding: $spacing-md $spacing-sm;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $color-pastel-purple;
+      color: $color-white
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $color-accent-grey;
+    }
+  }
+
+  &__result-desc {
+    padding: $spacing-sm;
+    color: $color-pastel-red
+  }
+}

@@ -87,6 +87,7 @@ const v = useVuelidate(rules, {title})
 // Закрытие модального окна
 const modalClose = () => {
   title.value = ''
+  v.value.$reset()
   emit('modalClose')
 }
 

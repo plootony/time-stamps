@@ -2,14 +2,14 @@
   <main-layout>
     <template #content>
       <div
-          v-show="!isLoading"
-          class="course"
+        v-show="!isLoading"
+        class="course"
       >
         <div class="course__heading">
           <div class="course__title-wrapper">
             <button
-                @click="$router.go(-1)"
-                class="btn btn--primary"
+              @click="$router.go(-1)"
+              class="btn btn--primary"
             >Назад
             </button>
 
@@ -17,8 +17,8 @@
           </div>
 
           <button
-              @click="addChapter"
-              :class="['btn btn--primary', { 'is-loading': !courseStore.isPlayerReady }]"
+            @click="addChapter"
+            :class="['btn btn--primary', { 'is-loading': !courseStore.isPlayerReady }]"
           >Добавить главу
           </button>
         </div>
@@ -26,33 +26,33 @@
         <div :class="['course__body']">
           <div class="course__left">
             <chapter-add
-                :modal-show="isShow"
-                @modal-close="modalClose"
+              :modal-show="isShow"
+              @modal-close="modalClose"
             />
 
             <the-player
-                v-if="courseStore.playerLink"
-                ref="playerRef"
+              v-if="courseStore.playerLink"
+              ref="playerRef"
             />
           </div>
 
           <div class="course__right">
-            <the-playlist/>
+            <the-playlist />
           </div>
         </div>
 
-        <the-editor/>
+        <the-editor />
       </div>
     </template>
   </main-layout>
 </template>
 
 <script setup lang='ts'>
-import {onMounted, ref} from "vue"
+import {onMounted, ref} from 'vue'
 import MainLayout from '@/layouts/MainLayout.vue'
 import ThePlaylist from '@/components/ThePlaylist.vue'
 import TheEditor from '@/components/TheEditor.vue'
-import ThePlayer from '@/components/ThePlayer.vue';
+import ThePlayer from '@/components/ThePlayer.vue'
 import ChapterAdd from '@/components/ChapterAdd.vue'
 import {useCourseStore} from '@/stores/course'
 import {doc, getDoc} from 'firebase/firestore'
@@ -103,8 +103,9 @@ const getCourseDetails = async (): Promise<void> => {
     if (docSnap.exists()) {
       courseDetails.value = docSnap.data() as ICourse
       courseStore.playerLink = courseDetails.value.link
+
     } else {
-      console.log("Документ не найден")
+      console.log('Документ не найден')
     }
 
   } catch (error) {
