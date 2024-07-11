@@ -48,7 +48,7 @@
 </template>
 
 <script setup lang='ts'>
-import {onMounted, ref} from 'vue'
+import {onMounted, onUnmounted, ref} from 'vue'
 import MainLayout from '@/layouts/MainLayout.vue'
 import ThePlaylist from '@/components/ThePlaylist.vue'
 import TheEditor from '@/components/TheEditor.vue'
@@ -105,6 +105,8 @@ const getCourseDetails = async (): Promise<void> => {
       courseDetails.value = docSnap.data() as ICourse
       courseStore.playerLink = courseDetails.value.link
 
+      console.log(courseDetails.value)
+
     } else {
       console.log('Документ не найден !')
       router.push('/not-found')
@@ -120,4 +122,13 @@ const getCourseDetails = async (): Promise<void> => {
 onMounted(() => {
   getCourseDetails()
 })
+
+// TODO: Придумать что нибудь получше
+onUnmounted(() => {
+  courseDetails.value = {} as ICourse
+  courseStore.isPlayerReady = false
+  courseStore.playerTime = 0
+  courseStore.playerLink = ''
+})
+
 </script>

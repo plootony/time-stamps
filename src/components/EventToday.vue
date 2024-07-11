@@ -4,16 +4,13 @@
       <li
         v-for="event in todayEvents"
         :key="event.id"
+        class="events-list__item"
+        @click="selectEvent(event.id)"
+        :title="event.title"
       >
-        <router-link
-          class="events-list__item"
-          :to="'course/' + event.id"
-          :title="event.title"
-        >
-          <img class="events-list__item-img" :src="event.image" alt="Обложка">
+        <img class="events-list__item-img" :src="event.image" alt="Обложка">
 
-          <span class="events-list__item-title">{{ event.title }}</span>
-        </router-link>
+        <span class="events-list__item-title">{{ event.title }}</span>
       </li>
     </ul>
 
@@ -25,6 +22,9 @@
 import {computed} from 'vue'
 import {useEventsStore} from '@/stores/events'
 
+import {useRouter} from 'vue-router'
+
+const router = useRouter()
 const eventsStore = useEventsStore()
 
 /** Вывод ивентов на сегодня */
@@ -33,4 +33,8 @@ const todayEvents = computed(() => {
 
   return eventsStore.events.filter(event => event.start === todayDate)
 })
+
+const selectEvent = (id: string) => {
+  router.push('/course/' + id)
+}
 </script>
