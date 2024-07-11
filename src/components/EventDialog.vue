@@ -73,7 +73,6 @@ const today = new Date().toISOString().split('T')[0]
 const eventData = ref<IEvent>({
   id: uuidv4(),
   title: '',
-  link: '',
   image: '',
   start: today,
   end: today
@@ -103,7 +102,6 @@ const clearForm = () => {
   eventData.value = {
     id: uuidv4(),
     title: '',
-    link: '',
     image: '',
     start: today,
     end: today
