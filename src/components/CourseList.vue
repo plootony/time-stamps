@@ -1,10 +1,13 @@
 <template>
   <div
-    v-if="isLoading && courseStore.courses.length !== 0"
+    v-if="isLoading && courseStore.courses.length"
     class="showcase__loader"
   ></div>
 
-  <div v-if="courseStore.courses.length === 0">Вы еще не добавили ни одного курса</div>
+  <div
+    v-if="!courseStore.courses.length && !isLoading"
+  >Вы еще не добавили ни одного курса
+  </div>
 
   <div v-else class="showcase__cards">
     <course-item

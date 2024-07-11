@@ -14,7 +14,8 @@
           @submit.prevent
           class="event-dialog__form"
         >
-          <SmartSelect />
+
+          <CourseSelect @select-course="selectCourse" />
 
           <div class="form-group">
             <label class="form-group__label">Начало</label>
@@ -54,8 +55,8 @@ import {ref} from 'vue'
 import {v4 as uuidv4} from 'uuid'
 import TheModal from '@/components/TheModal.vue'
 import type {IEvent} from '@/interfaces/IEvent'
-import SmartSelect from '@/components/SmartSelect.vue'
 import {useCourseStore} from '@/stores/course'
+import CourseSelect from '@/components/CourseSelect.vue'
 
 const courseStore = useCourseStore()
 const props = defineProps({
@@ -68,12 +69,21 @@ const props = defineProps({
 const emits = defineEmits(['modalClose', 'eventAdd'])
 
 const today = new Date().toISOString().split('T')[0]
+
 const eventData = ref<IEvent>({
   id: uuidv4(),
   title: '',
+  link: '',
+  image: '',
   start: today,
   end: today
 })
+
+const selectCourse = (title: string, id: string, image: string) => {
+  eventData.value.id = id
+  eventData.value.title = title
+  eventData.value.image = image
+}
 
 /** Закрытие модального окна */
 const closeModal = () => {
@@ -84,6 +94,7 @@ const closeModal = () => {
 /** Добавление события */
 const eventAdd = () => {
   emits('eventAdd', eventData.value)
+
   clearForm()
 }
 
@@ -92,6 +103,8 @@ const clearForm = () => {
   eventData.value = {
     id: uuidv4(),
     title: '',
+    link: '',
+    image: '',
     start: today,
     end: today
   }

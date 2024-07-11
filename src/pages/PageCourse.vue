@@ -56,18 +56,19 @@ import ThePlayer from '@/components/ThePlayer.vue'
 import ChapterAdd from '@/components/ChapterAdd.vue'
 import {useCourseStore} from '@/stores/course'
 import {doc, getDoc} from 'firebase/firestore'
-import {useRoute} from 'vue-router'
+import {useRoute, useRouter} from 'vue-router'
 import type {ICourse} from '@/interfaces/ICourse'
 
 const courseStore = useCourseStore()
-const router = useRoute()
+const route = useRoute()
+const router = useRouter()
 
 const isShow = ref(false)
 const playerRef = ref()
 const isLoading = ref(true)
 const userId = courseStore.userId
 const db = courseStore.db
-const courseId = router.params.id
+const courseId = route.params.id
 const courseDetails = ref({} as ICourse)
 
 /** Добавление новой главы */
@@ -105,7 +106,8 @@ const getCourseDetails = async (): Promise<void> => {
       courseStore.playerLink = courseDetails.value.link
 
     } else {
-      console.log('Документ не найден')
+      console.log('Документ не найден !')
+      router.push('/not-found')
     }
 
   } catch (error) {
