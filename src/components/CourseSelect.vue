@@ -5,7 +5,7 @@
     <input
       @click="toggleDropdown"
       class="course-select__value"
-      :value="selectedTitle"
+      :value="courseStore.courses[0]?.title"
       readonly
     >
 
@@ -43,34 +43,45 @@ const {isLoading, getCourses} = useCourses()
 const emits = defineEmits(['selectCourse'])
 
 const isShow = ref<boolean>(false)
-const selectedTitle = ref<string>('')
-const selectedImage = ref<string>('')
-const selectedId = ref<string>('')
 
-const toggleDropdown = () => {
+/**
+ * Переключение состояния видимости выпадающего списка
+ */
+const toggleDropdown = (): void => {
   isShow.value = !isShow.value
 }
 
-const selectCourse = (title: string, id: string, image: string) => {
+/**
+ * Выбор курса и эмиссия события
+ * @param {string} title - Название курса
+ * @param {string} id - Идентификатор курса
+ * @param {string} image - Изображение курса
+ */
+const selectCourse = (title: string, id: string, image: string): void => {
   emits('selectCourse', title, id, image)
 
   isShow.value = false
 }
 
-const init = async () => {
-
+/**
+ * Инициализация компонента, загрузка курсов и выбор первого курса
+ */
+const init = async (): Promise<void> => {
   try {
     isLoading.value = true
 
     await getCourses()
 
     if (courseStore.courses.length > 0) {
-      selectedId.value = courseStore.courses[0].id
-      selectedTitle.value = courseStore.courses[0].title
-      selectedImage.value = courseStore.courses[0].image
+      selectCourse(
+        courseStore.courses[0].title,
+        courseStore.courses[0].id,
+        courseStore.courses[0].image
+      )
     }
   } catch (e) {
     console.error(e)
+
   } finally {
     isLoading.value = false
   }
