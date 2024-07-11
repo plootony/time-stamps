@@ -46,7 +46,6 @@ import EventDetails from '@/components/EventDetails.vue'
 import EventToday from '@/components/EventToday.vue'
 import EventDialog from '@/components/EventDialog.vue'
 import type {IEvent} from '@/interfaces/IEvent'
-import SmartSelect from '@/components/SmartSelect.vue'
 
 const eventsStore = useEventsStore()
 
@@ -63,6 +62,7 @@ const eventDialogShow = ref<boolean>(false)
 const currentEvent = reactive<IEvent>({
   id: '',
   title: '',
+  image: '',
   start: '',
   end: ''
 })
