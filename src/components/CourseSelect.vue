@@ -5,14 +5,12 @@
     <input
       @click="toggleDropdown"
       class="course-select__value"
-      :value="courseStore.courses[0]?.title"
+      :value="courseStore.courses[0]?.title ? courseStore.courses[0]?.title : 'Вы еще не добавили ни одного курса'"
       readonly
     >
 
-    <div v-if="isShow" class="course-select__body">
-      <ul
-        v-if="courseStore.courses.length"
-        :class="['course-select__list', { 'is-loading': isLoading }]"
+    <div v-if="isShow && courseStore.courses.length" class="course-select__body">
+      <ul :class="['course-select__list', { 'is-loading': isLoading }]"
       >
         <li
           v-for="course in courseStore.courses"
@@ -24,10 +22,7 @@
 
           <span class="course-select__item-title">{{ course.title }}</span>
         </li>
-
       </ul>
-
-      <span v-else class="course-select__empty">Вы еще не добавили ни одного курса</span>
     </div>
   </div>
 </template>

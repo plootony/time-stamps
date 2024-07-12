@@ -43,7 +43,8 @@
     </template>
 
     <template #footer>
-      <button @click="eventAdd" class="btn btn--primary">Сохранить</button>
+      <button @click="eventAdd" :class="['btn btn--primary', {'is-blocked' : !courseStore.courses.length}]">Сохранить
+      </button>
 
       <button @click="closeModal" class="btn btn--outline">Закрыть</button>
     </template>
