@@ -80,6 +80,7 @@ const eventData = ref<IEvent>({
 })
 
 const selectCourse = (title: string, id: string, image: string) => {
+  console.log(1)
   eventData.value.id = id
   eventData.value.title = title
   eventData.value.image = image
