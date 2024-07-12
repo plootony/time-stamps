@@ -65,9 +65,9 @@ const router = useRoute()
 const db = courseStore.db
 const userId = courseStore.userId
 const courseId = router.params.id
+
 const emit = defineEmits(['modalClose'])
 const isShow = ref<boolean>(false)
-
 const isLoading = ref<boolean>(false)
 const title = ref<string>('')
 

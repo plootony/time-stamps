@@ -101,6 +101,7 @@ const eventDelete = async (): Promise<void> => {
     await deleteDoc(doc(db, `users/${userId}/events/`, currentEvent.id))
 
     const index: number = eventsStore.events.findIndex(event => event.id === currentEvent.id)
+
     if (index !== -1) {
       eventsStore.events.splice(index, 1)
       console.log('Выбранный ивент удален')
@@ -127,6 +128,7 @@ const eventAdd = async (eventData: IEvent): Promise<void> => {
 
   try {
     await setDoc(doc(db, `users/${userId}/events/${eventData.id}`), eventData)
+
     calendarApp.events.add(eventData)
     eventsStore.events.push(eventData)
 

@@ -9,6 +9,10 @@
   background: $color-pastel-purple !important;
 }
 
-.plyr--full-ui input[type=range]  {
+.plyr--full-ui input[type=range] {
   color: $color-pastel-purple !important;
+}
+
+.plyr--video {
+  border-radius: 8px;
 }

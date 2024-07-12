@@ -75,7 +75,7 @@
   width: 20%;
 
   &__title {
-    margin-top: $spacing-lg;
+    margin-top: $spacing-sm;
     margin-bottom: $spacing-sm;
   }
 
@@ -87,4 +87,14 @@
 
 .schedule {
   width: 80%;
+}
+
+.sx__calendar-header {
+  padding: 0;
+  justify-content: flex-end;
+}
+
+.sx__today-button,
+.sx__calendar-header-content:nth-child(2) {
+  display: none;
 }
