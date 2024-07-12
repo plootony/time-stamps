@@ -11,7 +11,10 @@
             <slot name="header">Заголовок по умолчанию</slot>
           </h2>
 
-          <button class="modal__close" @click="modalClose">
+          <button
+            class="modal__close"
+            @click="modalClose"
+          >
             <TheIcon name="close" />
           </button>
         </div>
